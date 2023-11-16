@@ -37,7 +37,6 @@ public class ReceptionInterface {
         headerPanelsh.setBackground(new Color(200, 200, 200));
 
         // CREATE HEADING JLABEL
-        JLabel heading = new JLabel("Bệnh viện đa khoa");
         JLabel heading = new JLabel("Medical Hospital");
         Font font = new Font("Garamond", Font.BOLD, 35);
         heading.setFont(font);
