@@ -1,3 +1,5 @@
+package finalProject;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
@@ -136,6 +138,11 @@ public class ReceptionInterface {
 
     public void editform() {
         // EDIT FORM
+        String ID = "ID";
+        final JTextField IDfield = new JTextField(ID);
+        IDfield.setBounds(165, 10, 280, 40);
+        formPanel.add(IDfield);
+
         String name = "Nhập tên bệnh nhân";
         final JTextField namefield = new JTextField(name);
         namefield.setBounds(165, 60, 280, 40);
@@ -181,7 +188,7 @@ public class ReceptionInterface {
         // SECOND ONCLICK
         formeditbutton.addActionListener(ae -> {
             try {
-                Patient patient = new Patient(name, address, phone, age, sex, illness);
+                Patient patient = new Patient(ID, name, address, phone, age, sex, illness);
                 JOptionPane.showMessageDialog(null, "Successfully entered details");
                 waitingRoom.add(patient);
                 formPanel.setVisible(false);
