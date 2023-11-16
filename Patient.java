@@ -1,4 +1,5 @@
 public class Patient {
+    private String ID;
     private String name;
     private String address;
     private String phone;
@@ -7,13 +8,22 @@ public class Patient {
     private String illness;
 
 
-    public Patient(String name, String address, String phone, String age, String sex, String illness) {
+    public Patient(String ID, String name, String address, String phone, String age, String sex, String illness) {
+        this.ID = ID;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.age = age;
         this.sex = sex;
         this.illness = illness;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getName() {
