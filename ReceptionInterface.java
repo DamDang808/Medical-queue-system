@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.Queue;
 import javax.swing.*;
@@ -17,24 +20,22 @@ public class ReceptionInterface {
     ReceptionInterface() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-
         editFrame = new JFrame("Edit");
         editFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         editFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         editFrame.setLayout(null);
-
 
         // CREATE HEADERPANEL JPANEL
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(null);
         headerPanel.setBounds(10, 10, screenSize.width - 20, 100);
         headerPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
-
-        // CREATE HEADERPANELSH JPANEL
-        JPanel headerPanelsh = new JPanel();
-        headerPanelsh.setLayout(null);
-        headerPanelsh.setBounds(16, 16, screenSize.width - 20, 100);
-        headerPanelsh.setBackground(new Color(200, 200, 200));
+//
+//        // CREATE HEADERPANELSH JPANEL
+//        JPanel headerPanelsh = new JPanel();
+//        headerPanelsh.setLayout(null);
+//        headerPanelsh.setBounds(16, 16, screenSize.width - 20, 100);
+//        headerPanelsh.setBackground(new Color(100, 200, 200));
 
         // CREATE HEADING JLABEL
         JLabel heading = new JLabel("Medical Hospital");
@@ -44,11 +45,14 @@ public class ReceptionInterface {
         heading.setBounds(screenSize.width - 700, 40, 700, 45);
 
         // LOGO
-//        ImageIcon image = new ImageIcon("C:\\Users\\diabolicfeak\\Documents\\NetBeansProjects\\hms\\src\\Images\\logo.png");
-//        JLabel label = new JLabel("", image, JLabel.CENTER);
-//        JPanel panel = new JPanel(new BorderLayout());
-//        panel.add(label, BorderLayout.CENTER);
-//        panel.setBounds(50, 15, 100, 90);
+        ImageIcon imageIcon = new ImageIcon("Images\\RedCross.png"); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(100, 90,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newimg);
+        JLabel label = new JLabel("", imageIcon, JLabel.CENTER);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(label, BorderLayout.CENTER);
+        panel.setBounds(50, 15, 100, 90);
 
         //FOOTER JPANEL
         JButton home = new JButton("Home");
@@ -78,22 +82,27 @@ public class ReceptionInterface {
 
         // CONTACT US BUTTON
         JButton contactus = new JButton("Contact Us");
-//        contactus.addActionListener(new ActionListener()
-//        {
-//            public void actionPerformed(ActionEvent ae)
-//            {
-//                editframe.setVisible(true);
-//                new ContactUs();
-//            }
-//        });
+        contactus.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent ae)
+            {
+                try {
+                    Desktop.getDesktop().browse(new URI("www.google.com.vn"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         contactus.setBounds((screenSize.width / 2) + 60, 650, 100, 30);
         editFrame.add(contactus);
 
 
-//        editframe.add(panel);
+        editFrame.add(panel);
         editFrame.add(heading);
         editFrame.add(headerPanel);
-        editFrame.add(headerPanelsh);
+//        editFrame.add(headerPanelsh);
 
 
 
@@ -167,32 +176,13 @@ public class ReceptionInterface {
                 e.printStackTrace();
             }
         });
-
-
-//        menubutton.addActionListener(new ActionListener()
-//        {
-//            public void actionPerformed(ActionEvent ae)
-//            {
-//                new MenuPage();
-//                editframe.setVisible(false);
-//            }
-//        });
-
     }
 
     public void edit() {
-        final JTextField idfield = new JTextField("Enter ID");
-        idfield.setBounds(10, 10, 150, 30);
-        JButton editbutton = new JButton("Edit");
-        editbutton.setBounds(170, 10, 150, 30);
+        JButton editButton = new JButton("Thêm bệnh nhân");
+        editButton.setBounds(170, 10, 150, 30);
 
-        menuButton = new JButton("View Patients");
-        menuButton.setBounds(120, 15, 150, 30);
-        menuButtonPanel.add(menuButton);
-        menuButtonPanel.setVisible(false);
-
-        editPanel.add(idfield);
-        editPanel.add(editbutton);
+        editPanel.add(editButton);
 
         editFrame.add(editPanel);
         editFrame.add(menuButtonPanel);
@@ -201,7 +191,7 @@ public class ReceptionInterface {
         formPanel.setBounds(400, 170, 600, 450);
         formPanel.setLayout(null);
 
-        editbutton.addActionListener(ae -> {
+        editButton.addActionListener(ae -> {
             try {
                 editform();
             } catch (Exception e) {
