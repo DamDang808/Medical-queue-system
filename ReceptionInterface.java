@@ -38,6 +38,7 @@ public class ReceptionInterface {
 
         // CREATE HEADING JLABEL
         JLabel heading = new JLabel("Bệnh viện đa khoa");
+        JLabel heading = new JLabel("Medical Hospital");
         Font font = new Font("Garamond", Font.BOLD, 35);
         heading.setFont(font);
         heading.setForeground(new Color(0, 255, 226));
@@ -90,6 +91,13 @@ public class ReceptionInterface {
         editFrame.add(contactus);
 
 
+//        editframe.add(panel);
+        editFrame.add(heading);
+        editFrame.add(headerPanel);
+        editFrame.add(headerPanelsh);
+
+
+
         editPanel = new JPanel();
         editPanel.setLayout(null);
         editPanel.setBounds(520, 120, 400, 200);
@@ -97,41 +105,8 @@ public class ReceptionInterface {
         menuButtonPanel = new JPanel();
         menuButtonPanel.setLayout(null);
         menuButtonPanel.setBounds(500, 140, 400, 50);
+        edit();
 
-        final JTextField idfield = new JTextField("Enter ID");
-        idfield.setBounds(10, 10, 150, 30);
-        JButton editbutton = new JButton("Edit");
-        editbutton.setBounds(170, 10, 150, 30);
-
-        menuButton = new JButton("View Patients");
-        menuButton.setBounds(120, 15, 150, 30);
-        menuButtonPanel.add(menuButton);
-        menuButtonPanel.setVisible(false);
-
-        editPanel.add(idfield);
-        editPanel.add(editbutton);
-
-        editFrame.add(editPanel);
-        editFrame.add(menuButtonPanel);
-//        editframe.add(panel);
-        editFrame.add(heading);
-        editFrame.add(headerPanel);
-        editFrame.add(headerPanelsh);
-
-        formPanel = new JPanel();
-        formPanel.setBounds(400, 170, 600, 450);
-        formPanel.setLayout(null);
-
-        editbutton.addActionListener(ae -> {
-            try {
-                editform();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        editFrame.add(formPanel);
-        editFrame.setVisible(true);
     }
 
     public void editform() {
@@ -178,8 +153,6 @@ public class ReceptionInterface {
 
         formPanel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
 
-
-        editPanel.setVisible(false);
 //          menubuttonpane.setVisible(true);
         formPanel.repaint();
 
@@ -190,7 +163,7 @@ public class ReceptionInterface {
                 JOptionPane.showMessageDialog(null, "Successfully entered details");
                 waitingRoom.add(patient);
                 formPanel.setVisible(false);
-                editPanel.setVisible(true);
+                edit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -208,6 +181,38 @@ public class ReceptionInterface {
 
     }
 
+    public void edit() {
+        final JTextField idfield = new JTextField("Enter ID");
+        idfield.setBounds(10, 10, 150, 30);
+        JButton editbutton = new JButton("Edit");
+        editbutton.setBounds(170, 10, 150, 30);
+
+        menuButton = new JButton("View Patients");
+        menuButton.setBounds(120, 15, 150, 30);
+        menuButtonPanel.add(menuButton);
+        menuButtonPanel.setVisible(false);
+
+        editPanel.add(idfield);
+        editPanel.add(editbutton);
+
+        editFrame.add(editPanel);
+        editFrame.add(menuButtonPanel);
+
+        formPanel = new JPanel();
+        formPanel.setBounds(400, 170, 600, 450);
+        formPanel.setLayout(null);
+
+        editbutton.addActionListener(ae -> {
+            try {
+                editform();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        editFrame.add(formPanel);
+        editFrame.setVisible(true);
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(ReceptionInterface::new);
     }
