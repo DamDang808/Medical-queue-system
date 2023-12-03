@@ -1,20 +1,20 @@
 public class Patient {
     private String ID;
     private String name;
-    private String address;
     private String phone;
+    private String address;
     private String age;
-    private String sex;
+    private String gender;
     private String illness;
 
 
-    public Patient(String ID, String name, String address, String phone, String age, String sex, String illness) {
+    public Patient(String ID, String name, String address, String phone, String age, String gender, String illness) {
         this.ID = ID;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.age = age;
-        this.sex = sex;
+        this.gender = gender;
         this.illness = illness;
     }
 
@@ -54,12 +54,12 @@ public class Patient {
         this.phone = phone;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
     public void setSex(String sex) {
-        this.sex = sex;
+        this.gender = sex;
     }
 
     public void setAge(String age) {
