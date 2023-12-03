@@ -8,7 +8,9 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
 
 /**
  *
@@ -104,11 +106,11 @@ public class AddPatientRecord extends javax.swing.JFrame {
         getContentPane().add(historyTextField, new AbsoluteConstraints(400, 320, 381, 26));
 
         saveButton.setText("Save");
-        saveButton.addActionListener(this::jButton3ActionPerformed);
+        saveButton.addActionListener(this::saveButtonActionPerformed);
         getContentPane().add(saveButton, new AbsoluteConstraints(80, 490, -1, -1));
 
         exitButton.setText("Thoát");
-        exitButton.addActionListener(this::jButton2ActionPerformed);
+        exitButton.addActionListener(this::exitButtonActionPerformed);
         getContentPane().add(exitButton, new AbsoluteConstraints(850, 490, -1, -1));
 
         toDepartmentLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
@@ -137,11 +139,22 @@ public class AddPatientRecord extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        String id = idTextField.getText();
+        String name = nameTextField.getText();
+        String phone = phoneNumberTextField.getText();
+        String age = ageTextField.getText();
+        String address = addressTextField.getText();
+        String history = historyTextField.getText();
+        String gender = String.valueOf(genderBox.getSelectedItem());
+        String department = String.valueOf(departmentBox.getSelectedItem());
+
+        Patient patient = new Patient(id, name, address, phone, age, gender, history);
+        patientQueue.add(patient);
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         setVisible(false);
         System.exit(0);
@@ -172,7 +185,9 @@ public class AddPatientRecord extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new AddPatientRecord().setVisible(true));
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration
+
+    protected Queue<Patient> patientQueue = new LinkedList<>();
     private JButton exitButton;
     private JButton saveButton;
     private JComboBox<String> genderBox;

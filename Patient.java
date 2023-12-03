@@ -73,4 +73,9 @@ public class Patient {
     public void setIllness(String illness) {
         this.illness = illness;
     }
+
+    @Override
+    public String toString() {
+        return name + " - " + ID;
+    }
 }
