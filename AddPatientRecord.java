@@ -8,12 +8,12 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
 
 /**
- *
  * @author adm
  */
 public class AddPatientRecord extends javax.swing.JFrame {
@@ -21,7 +21,10 @@ public class AddPatientRecord extends javax.swing.JFrame {
     /**
      * Creates new form addPatient
      */
-    public AddPatientRecord() {
+    private static List<Doctor> allDoctors;
+
+    public AddPatientRecord(List<Doctor> allDoctors) {
+        this.allDoctors = allDoctors;
         initComponents();
     }
 
@@ -95,7 +98,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         getContentPane().add(ageTextField, new AbsoluteConstraints(400, 190, 381, 26));
         getContentPane().add(addressTextField, new AbsoluteConstraints(400, 280, 381, 24));
 
-        genderBox.setModel(new DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        genderBox.setModel(new DefaultComboBoxModel<>(new String[]{"Male", "Female"}));
         getContentPane().add(genderBox, new AbsoluteConstraints(400, 230, 381, 25));
 
         historyLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
@@ -117,7 +120,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         toDepartmentLabel.setText("Chuyển đến:");
         getContentPane().add(toDepartmentLabel, new AbsoluteConstraints(190, 360, 113, 32));
 
-        departmentBox.setModel(new DefaultComboBoxModel<>(new String[] { "Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản", "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp" }));
+        departmentBox.setModel(new DefaultComboBoxModel<>(new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản", "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"}));
         getContentPane().add(departmentBox, new AbsoluteConstraints(400, 360, 381, 32));
 
         logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/Interface-image/logo.jpg")))); // NOI18N
@@ -140,22 +143,73 @@ public class AddPatientRecord extends javax.swing.JFrame {
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        String id = idTextField.getText();
-        String name = nameTextField.getText();
-        String phone = phoneNumberTextField.getText();
-        String age = ageTextField.getText();
-        String address = addressTextField.getText();
-        String history = historyTextField.getText();
-        String gender = String.valueOf(genderBox.getSelectedItem());
-        String department = String.valueOf(departmentBox.getSelectedItem());
+        if (isValidInput()) {
+            String id = idTextField.getText();
+            String name = nameTextField.getText();
+            String phone = phoneNumberTextField.getText();
+            String age = ageTextField.getText();
+            String address = addressTextField.getText();
+            String history = historyTextField.getText();
+            String gender = String.valueOf(genderBox.getSelectedItem());
+            String department = String.valueOf(departmentBox.getSelectedItem());
 
-        Patient patient = new Patient(id, name, address, phone, age, gender, history);
-        patientQueue.add(patient);
+            Patient patient = new Patient(id, name, address, phone, age, gender, history);
+            patientQueue.add(patient);
+
+            Doctor selectedDoctor = findDoctorByDepartment(department);
+            if (selectedDoctor != null) {
+                selectedDoctor.addPatientToQueue(patient);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid input.");
+        }
+    }
+
+    private boolean isValidInput() {
+        try {
+            int id = Integer.parseInt(idTextField.getText());
+            int age = Integer.parseInt(ageTextField.getText());
+            if (id <= 0 || age <= 0) {
+                JOptionPane.showMessageDialog(this, "ID và Tuổi phải là số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            String name = nameTextField.getText();
+            if (!name.matches("^[a-zA-Z\\s]+$")) {
+                JOptionPane.showMessageDialog(this, "Tên phải là chuỗi hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            String gender = String.valueOf(genderBox.getSelectedItem());
+            String address = addressTextField.getText();
+            String phone = phoneNumberTextField.getText();
+            String history = historyTextField.getText();
+
+            if (gender.isEmpty() || address.isEmpty() || phone.isEmpty() || history.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin của bệnh nhân.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            if (!phone.matches("^\\d+$")) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID và Tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
+    private Doctor findDoctorByDepartment(String department) {
+        for (Doctor doctor : allDoctors) {
+            if (doctor.getDepartment().equals(department)) {
+                return doctor;
+            }
+        }
+        return null;
     }
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
         setVisible(false);
         System.exit(0);
     }
@@ -167,7 +221,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -182,7 +236,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         }
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AddPatientRecord().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AddPatientRecord(allDoctors).setVisible(true));
     }
 
     // Variables declaration

@@ -4,6 +4,7 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -11,6 +12,12 @@ import java.util.Objects;
  * @author adm
  */
 public class Home extends javax.swing.JFrame {
+    private List<Doctor> allDoctors;
+
+    public Home(List<Doctor> allDoctors) {
+        this.allDoctors = allDoctors;
+        initComponents();
+    }
     /**
      * Creates new form Home
      */
@@ -60,7 +67,7 @@ public class Home extends javax.swing.JFrame {
 
     private void addPatientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new AddPatientRecord().setVisible(true);
+        new AddPatientRecord(allDoctors).setVisible(true);
     }
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
