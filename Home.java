@@ -36,14 +36,14 @@ public class Home extends javax.swing.JFrame {
         setPreferredSize(new Dimension(1000, 600));
         getContentPane().setLayout(new AbsoluteLayout());
 
-        addPatientButton.setIcon(new ImageIcon("Patient.jpg")); // NOI18N
+        addPatientButton.setIcon(new ImageIcon("Interface-image/Patient.jpg")); // NOI18N
         addPatientButton.setText("Thêm bệnh nhân");
         addPatientButton.setHorizontalTextPosition(SwingConstants.RIGHT);
         addPatientButton.setPreferredSize(new Dimension(196, 77));
         addPatientButton.addActionListener(this::addPatientButtonActionPerformed);
         getContentPane().add(addPatientButton, new AbsoluteConstraints(30, 230, -1, -1));
 
-        exitButton.setIcon(new ImageIcon("logout.jpg")); // NOI18N
+        exitButton.setIcon(new ImageIcon("Interface-image/logout.jpg")); // NOI18N
         exitButton.setText("Thoát");
         exitButton.setHorizontalAlignment(SwingConstants.LEFT);
         exitButton.setPreferredSize(new Dimension(196, 77));
@@ -51,7 +51,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(exitButton, new AbsoluteConstraints(30, 340, -1, -1));
         getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
 
-        jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("hospital.jpg")))); // NOI18N
+        jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/hospital.jpg")))); // NOI18N
         jLabel2.setText("jLabel2");
         getContentPane().add(jLabel2, new AbsoluteConstraints(0, 0, -1, -1));
 

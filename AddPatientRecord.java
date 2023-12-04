@@ -120,7 +120,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         departmentBox.setModel(new DefaultComboBoxModel<>(new String[] { "Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản", "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp" }));
         getContentPane().add(departmentBox, new AbsoluteConstraints(400, 360, 381, 32));
 
-        logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/logo.jpg")))); // NOI18N
+        logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/Interface-image/logo.jpg")))); // NOI18N
         logoLabel.setText("jLabel10");
         getContentPane().add(logoLabel, new AbsoluteConstraints(0, 0, -1, -1));
 
