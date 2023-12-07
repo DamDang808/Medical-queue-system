@@ -3,9 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -298,12 +309,31 @@ public class DoctorInterface extends JFrame {
 
     private void showPatientsWaitingTable() {
 
-        String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân", "Tuổi", "Giới tính", "Địa chỉ", "Số điện thoại", "Tình trạng bệnh", "Ngày khám"};
+        String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân","Số điện thoại", "Tuổi", "Giới tính", "Địa chỉ",  "Tình trạng bệnh", "Ngày khám"};
         JTable table = new JTable(0, columnNames.length);
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
         table.setAutoCreateRowSorter(true);
         table.setModel(model);
-        
+
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("data.csv"));
+
+            // create csv reader
+            CSVReader csvReader = new CSVReader(reader);
+
+            // read all records at once
+            List<String[]> records = csvReader.readAll();
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            for (String[] data : records) {
+                String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], date.format(formatter)};
+                model.addRow(row);
+            }
+            reader.close();
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
+        }
+
         JScrollPane scrollPane = new JScrollPane(table);
 
         JTextField searchField = new JTextField(20);

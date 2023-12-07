@@ -9,15 +9,11 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Queue;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author adm
@@ -165,7 +161,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
             String gender = String.valueOf(genderBox.getSelectedItem());
             String department = String.valueOf(departmentBox.getSelectedItem());
 
-            String[] patient = new String[]{id, name, phone, age, address, history, gender, department};
+            String[] patient = new String[]{id, name, phone, age, gender, address, history, department};
             writeToCSV(patient);
             JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
 //            Doctor selectedDoctor = findDoctorByDepartment(department);
@@ -262,8 +258,6 @@ public class AddPatientRecord extends javax.swing.JFrame {
         }
     }
     // Variables declaration
-
-    protected Queue<Patient> patientQueue = new LinkedList<>();
     private JButton exitButton;
     private JButton saveButton;
     private JComboBox<String> genderBox;
