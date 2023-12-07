@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
  * @author adm
  */
 public class Home extends javax.swing.JFrame {
@@ -18,6 +17,7 @@ public class Home extends javax.swing.JFrame {
         this.allDoctors = allDoctors;
         initComponents();
     }
+
     /**
      * Creates new form Home
      */
@@ -73,7 +73,7 @@ public class Home extends javax.swing.JFrame {
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         int a = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thoát?", "Select", JOptionPane.YES_NO_OPTION);
-        if (a==0) {
+        if (a == 0) {
             setVisible(false);
             System.exit(0);
         }
@@ -86,7 +86,7 @@ public class Home extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

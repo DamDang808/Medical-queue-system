@@ -3,15 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import com.opencsv.CSVWriter;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author adm
@@ -145,21 +151,27 @@ public class AddPatientRecord extends javax.swing.JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
         if (isValidInput()) {
             String id = idTextField.getText();
+            idTextField.setText("");
             String name = nameTextField.getText();
+            nameTextField.setText("");
             String phone = phoneNumberTextField.getText();
+            phoneNumberTextField.setText("");
             String age = ageTextField.getText();
+            ageTextField.setText("");
             String address = addressTextField.getText();
+            addressTextField.setText("");
             String history = historyTextField.getText();
+            historyTextField.setText("");
             String gender = String.valueOf(genderBox.getSelectedItem());
             String department = String.valueOf(departmentBox.getSelectedItem());
 
-            Patient patient = new Patient(id, name, address, phone, age, gender, history);
-            patientQueue.add(patient);
-
-            Doctor selectedDoctor = findDoctorByDepartment(department);
-            if (selectedDoctor != null) {
-                selectedDoctor.addPatientToQueue(patient);
-            }
+            String[] patient = new String[]{id, name, phone, age, address, history, gender, department};
+            writeToCSV(patient);
+            JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
+//            Doctor selectedDoctor = findDoctorByDepartment(department);
+//            if (selectedDoctor != null) {
+//                selectedDoctor.addPatientToQueue(patient);
+//            }
         } else {
             JOptionPane.showMessageDialog(this, "Invalid input.");
         }
@@ -200,14 +212,14 @@ public class AddPatientRecord extends javax.swing.JFrame {
         }
     }
 
-    private Doctor findDoctorByDepartment(String department) {
-        for (Doctor doctor : allDoctors) {
-            if (doctor.getDepartment().equals(department)) {
-                return doctor;
-            }
-        }
-        return null;
-    }
+//    private Doctor findDoctorByDepartment(String department) {
+//        for (Doctor doctor : allDoctors) {
+//            if (doctor.getDepartment().equals(department)) {
+//                return doctor;
+//            }
+//        }
+//        return null;
+//    }
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setVisible(false);
@@ -239,6 +251,16 @@ public class AddPatientRecord extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new AddPatientRecord(allDoctors).setVisible(true));
     }
 
+    public void writeToCSV(String[] data) {
+        String csv = "data.csv";
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+            writer.writeNext(data);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     // Variables declaration
 
     protected Queue<Patient> patientQueue = new LinkedList<>();
