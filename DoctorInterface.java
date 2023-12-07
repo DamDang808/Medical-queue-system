@@ -4,13 +4,11 @@
  */
 
 import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -44,12 +42,11 @@ public class DoctorInterface extends JFrame {
      */
     private Patient patient;
     private Queue<Patient> patientsWaiting = new LinkedList<>();
-    private Queue<Patient> patientsFinished = new LinkedList<>();
+    private List<Patient> diagnosedPatients = new LinkedList<>();
 
     public DoctorInterface() {
         this.setTitle("Doctor");
         this.setVisible(true);
-        initializeDiagnosedPatientsTable();
         initComponents();
     }
 
@@ -211,9 +208,9 @@ public class DoctorInterface extends JFrame {
         // TODO add your handling code here:
         Patient patientNow = patientsWaiting.peek();
         String diagnosis = JOptionPane.showInputDialog(this, "Nhập chẩn đoán cho bệnh nhân đã khám xong:");
-        if (patientNow!= null && diagnosis != null && !diagnosis.isEmpty()) {
+        if (patientNow != null && diagnosis != null && !diagnosis.isEmpty()) {
             patientNow.setDoctorsDiagnosis(diagnosis);
-            patientsFinished.add(patientNow);
+            diagnosedPatients.add(patientNow);
             patientsWaiting.poll();
             JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -250,9 +247,6 @@ public class DoctorInterface extends JFrame {
         // TODO add your handling code here:
     }
 
-    private void initializeDiagnosedPatientsTable() {
-
-    }
 
     //    private void search1(String text) {
 //        // Lọc dữ liệu dựa trên nội dung tìm kiếm
@@ -341,7 +335,7 @@ public class DoctorInterface extends JFrame {
     }
 
     private void showDiagnosedPatientsTable() {
-        String[] columnNames = {"Số thứ tự", "Họ tên",  "Tuổi", "Giới tính", "Chẩn đoán"};
+        String[] columnNames = {"Số thứ tự", "Họ tên", "Tuổi", "Giới tính", "Chẩn đoán"};
         JTable table = new JTable(0, columnNames.length);
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
         table.setAutoCreateRowSorter(true);
@@ -349,7 +343,7 @@ public class DoctorInterface extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1200, 600));
 
-        for (Patient patient : patientsFinished) {
+        for (Patient patient : diagnosedPatients) {
             String[] row = new String[]{patient.getID(), patient.getName(), patient.getAge(), patient.getGender(), patient.getDoctorsDiagnosis()};
             model.addRow(row);
         }
@@ -381,47 +375,41 @@ public class DoctorInterface extends JFrame {
     }
 
     private void prescribeMedicineToPatient() {
-        // Ví dụ danh sách bệnh nhân đã khám
-        String[] diagnosedPatients = {"Bệnh nhân A", "Bệnh nhân B", "Bệnh nhân C"}; // Thay thế bằng danh sách bệnh nhân đã khám thực tế
-
-        boolean isPrescriptionGiven = false;
-
+        JComboBox<String> patientsBox = new JComboBox<>();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{});
+        patientsBox.setModel(model);
+        boolean isPrescribed = false;
         // Kiểm tra xem còn bệnh nhân đã khám nào chưa được kê đơn thuốc
-        for (String patient : diagnosedPatients) {
+        for (Patient patient : diagnosedPatients) {
+            // Kiểm tra xem đã kê đơn thuốc cho tất cả bệnh nhân đã khám hay chưa
+            if (patient.getMedicine() == null) {
+                isPrescribed = true;
+                model.addElement(patient.getName());
+            }
             // Xử lý logic kiểm tra xem bệnh nhân đã được kê đơn thuốc hay chưa, ví dụ sử dụng một danh sách bệnh nhân đã kê đơn
             // Nếu bệnh nhân chưa được kê đơn thuốc
-            if (!isPrescriptionGiven) {
-                // Hiển thị danh sách bệnh nhân đã khám cho người dùng chọn
-                String selectedDiagnosedPatient = (String) JOptionPane.showInputDialog(
-                        this, "Chọn bệnh nhân đã khám:",
-                        "Danh sách bệnh nhân đã khám",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        diagnosedPatients,
-                        diagnosedPatients[0]
-                );
+        }
+        if (!isPrescribed) {
+            JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần kê đơn thuốc.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
 
-                if (selectedDiagnosedPatient != null) {
-                    // Người dùng đã chọn một bệnh nhân đã khám, tiếp tục nhập đơn thuốc
-                    String prescription = JOptionPane.showInputDialog(this, "Nhập đơn thuốc cho " + selectedDiagnosedPatient + ":");
-                    if (prescription != null && !prescription.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "Đã nhập đơn thuốc cho " + selectedDiagnosedPatient + ": " + prescription, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        // Lưu thông tin đơn thuốc vào cơ sở dữ liệu hoặc xử lý theo ý bạn
-                        isPrescriptionGiven = true; // Đã kê đơn thuốc cho ít nhất một bệnh nhân
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Chưa nhập đơn thuốc!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Thoát khỏi việc kê đơn thuốc.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    return;
+        // Người dùng đã chọn một bệnh nhân đã khám, tiếp tục nhập đơn thuốc
+        String patientName = String.valueOf(patientsBox.getSelectedItem());
+        String prescription = JOptionPane.showInputDialog(this, "Nhập đơn thuốc cho " + patientName + ":");
+        if (prescription != null && !prescription.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Đã nhập đơn thuốc cho " + patientName + ": " + prescription, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            // Lưu thông tin đơn thuốc vào cơ sở dữ liệu hoặc xử lý theo ý bạn
+            diagnosedPatients.forEach(patient -> {
+                if (patient.getName().equals(patientName)) {
+                    patient.setMedicine(prescription);
                 }
-            }
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa nhập đơn thuốc!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Kiểm tra xem đã kê đơn thuốc cho tất cả bệnh nhân đã khám hay chưa
-        if (!isPrescriptionGiven) {
-            JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần kê đơn thuốc.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
     }
 
     private void transferPatientToAnotherDepartment() {

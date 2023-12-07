@@ -7,6 +7,7 @@ public class Patient {
     private String gender;
     private String illness;
     private String doctorsDiagnosis = "";
+    private String medicine;
 
     public Patient(String ID, String name, String phone, String age, String gender, String address, String illness) {
         this.ID = ID;
@@ -75,6 +76,13 @@ public class Patient {
         this.doctorsDiagnosis = doctorsDiagnosis;
     }
 
+    public void setMedicine(String medicine) {
+        this.medicine = medicine;
+    }
+
+    public String getMedicine() {
+        return medicine;
+    }
     @Override
     public String toString() {
         return name + " - " + ID;
