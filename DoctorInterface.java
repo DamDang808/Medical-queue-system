@@ -4,18 +4,20 @@
  */
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -33,7 +35,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- *
  * @author ADMIN
  */
 public class DoctorInterface extends JFrame {
@@ -41,10 +42,13 @@ public class DoctorInterface extends JFrame {
     /**
      * Creates new form NewJFrame
      */
-    private DefaultTableModel diagnosedPatientsModel;
+    private Patient patient;
+    private Queue<Patient> patientsWaiting = new LinkedList<>();
+    private Queue<Patient> patientsFinished = new LinkedList<>();
 
     public DoctorInterface() {
-        this.diagnosedPatientsModel = new DefaultTableModel();
+        this.setTitle("Doctor");
+        this.setVisible(true);
         initializeDiagnosedPatientsTable();
         initComponents();
     }
@@ -78,34 +82,34 @@ public class DoctorInterface extends JFrame {
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
 
         GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
 
         GroupLayout jPanel3Layout = new GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+                jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+                jPanel3Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGap(0, 100, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -138,117 +142,119 @@ public class DoctorInterface extends JFrame {
         GroupLayout DoctorLayout = new GroupLayout(Doctor);
         Doctor.setLayout(DoctorLayout);
         DoctorLayout.setHorizontalGroup(
-            DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(DoctorLayout.createSequentialGroup()
-                .addGroup(DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(DoctorLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton6)))
-                    .addGroup(DoctorLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3))
-                    .addGroup(DoctorLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton5))
-                    .addGroup(DoctorLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton4)))
-                .addGap(475, 475, 475))
+                DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(DoctorLayout.createSequentialGroup()
+                                .addGroup(DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(DoctorLayout.createSequentialGroup()
+                                                .addGap(6, 6, 6)
+                                                .addGroup(DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jButton1)
+                                                        .addComponent(jButton2)
+                                                        .addComponent(jButton6)))
+                                        .addGroup(DoctorLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jButton3))
+                                        .addGroup(DoctorLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jButton5))
+                                        .addGroup(DoctorLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jButton4)))
+                                .addGap(475, 475, 475))
         );
         DoctorLayout.setVerticalGroup(
-            DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(DoctorLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(jButton2)
-                .addGap(56, 56, 56)
-                .addComponent(jButton4)
-                .addGap(47, 47, 47)
-                .addComponent(jButton5)
-                .addGap(41, 41, 41)
-                .addComponent(jButton3)
-                .addGap(53, 53, 53)
-                .addComponent(jButton6, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(DoctorLayout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(jButton2)
+                                .addGap(56, 56, 56)
+                                .addComponent(jButton4)
+                                .addGap(47, 47, 47)
+                                .addComponent(jButton5)
+                                .addGap(41, 41, 41)
+                                .addComponent(jButton3)
+                                .addGap(53, 53, 53)
+                                .addComponent(jButton6, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(Doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(Doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
         );
 
         Doctor.getAccessibleContext().setAccessibleDescription("");
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton3ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        prescribeMedicineToPatient();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }
 
     private void jButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         showPatientsWaitingTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
-    private void jButton2ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton2ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
+        Patient patientNow = patientsWaiting.peek();
         String diagnosis = JOptionPane.showInputDialog(this, "Nhập chẩn đoán cho bệnh nhân đã khám xong:");
-        if (diagnosis != null && !diagnosis.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        if (patientNow!= null && diagnosis != null && !diagnosis.isEmpty()) {
+            patientNow.setDoctorsDiagnosis(diagnosis);
+            patientsFinished.add(patientNow);
+            patientsWaiting.poll();
+            JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis,
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Chưa nhập chẩn đoán!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
 
-    private void jButton4ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jButton3ActionPerformed(ActionEvent evt) {
+        // TODO add your handling code here:
+        prescribeMedicineToPatient();
+    }
+
+
+    private void jButton4ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         transferPatientToAnotherDepartment();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }
 
-    private void jButton5ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void jButton5ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         showDiagnosedPatientsTable();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }
 
-    private void jButton6ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void jButton6ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton2ItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_jButton2ItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ItemStateChanged
-
-    private void initializeDiagnosedPatientsTable() {
-        diagnosedPatientsModel.addColumn("Số thứ tự");
-        diagnosedPatientsModel.addColumn("Họ tên");
-        diagnosedPatientsModel.addColumn("Tuổi");
-        diagnosedPatientsModel.addColumn("Giới tính");
-        diagnosedPatientsModel.addColumn("Chẩn đoán");
     }
 
-//    private void search1(String text) {
+    private void jButton2ItemStateChanged(ItemEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void initializeDiagnosedPatientsTable() {
+
+    }
+
+    //    private void search1(String text) {
 //        // Lọc dữ liệu dựa trên nội dung tìm kiếm
 //        List<Object[]> filteredData = new ArrayList<>();
 //        for (int i = 0; i < diagnosedPatientsModel.getRowCount(); i++) {
@@ -277,46 +283,16 @@ public class DoctorInterface extends JFrame {
 //        // Thêm lại dữ liệu đã lọc vào JTable
 //        filteredData.forEach(diagnosedPatientsModel::addRow);
 //    }
-    private void showDiagnosedPatientsTable() {
-        JTable diagnosedPatientsTable = new JTable(diagnosedPatientsModel);
-        JScrollPane scrollPane = new JScrollPane(diagnosedPatientsTable);
-
-        JTextField searchField = new JTextField(20);
-        searchField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                search(searchField.getText(), diagnosedPatientsTable);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                search(searchField.getText(), diagnosedPatientsTable);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                search(searchField.getText(), diagnosedPatientsTable);
-            }
-        });
-
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Tìm kiếm: "));
-        panel.add(searchField);
-        panel.add(scrollPane);
-
-        JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đã khám xong", JOptionPane.PLAIN_MESSAGE);
-    }
 
     private void showPatientsWaitingTable() {
-
-        String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân","Số điện thoại", "Tuổi", "Giới tính", "Địa chỉ",  "Tình trạng bệnh", "Ngày khám"};
+        String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân", "Số điện thoại", "Tuổi", "Giới tính", "Địa chỉ", "Tình trạng bệnh", "Ngày khám"};
         JTable table = new JTable(0, columnNames.length);
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
         table.setAutoCreateRowSorter(true);
         table.setModel(model);
 
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("data.csv"));
+            Reader reader = Files.newBufferedReader(Paths.get("waiting.csv"));
 
             // create csv reader
             CSVReader csvReader = new CSVReader(reader);
@@ -327,7 +303,9 @@ public class DoctorInterface extends JFrame {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             for (String[] data : records) {
                 String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], date.format(formatter)};
+                Patient patient = new Patient(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
                 model.addRow(row);
+                patientsWaiting.add(patient);
             }
             reader.close();
         } catch (IOException | CsvException e) {
@@ -335,7 +313,7 @@ public class DoctorInterface extends JFrame {
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
-
+        scrollPane.setPreferredSize(new Dimension(1200, 600));
         JTextField searchField = new JTextField(20);
         searchField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -360,6 +338,46 @@ public class DoctorInterface extends JFrame {
         panel.add(scrollPane);
 
         JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đang chờ khám", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void showDiagnosedPatientsTable() {
+        String[] columnNames = {"Số thứ tự", "Họ tên",  "Tuổi", "Giới tính", "Chẩn đoán"};
+        JTable table = new JTable(0, columnNames.length);
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
+        table.setAutoCreateRowSorter(true);
+        table.setModel(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1200, 600));
+
+        for (Patient patient : patientsFinished) {
+            String[] row = new String[]{patient.getID(), patient.getName(), patient.getAge(), patient.getGender(), patient.getDoctorsDiagnosis()};
+            model.addRow(row);
+        }
+
+        JTextField searchField = new JTextField(20);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                search(searchField.getText(), table);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                search(searchField.getText(), table);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                search(searchField.getText(), table);
+            }
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Tìm kiếm: "));
+        panel.add(searchField);
+        panel.add(scrollPane);
+
+        JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đã khám xong", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void prescribeMedicineToPatient() {
@@ -395,7 +413,7 @@ public class DoctorInterface extends JFrame {
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Thoát khỏi việc kê đơn thuốc.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                return;
+                    return;
                 }
             }
         }
@@ -405,51 +423,52 @@ public class DoctorInterface extends JFrame {
             JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần kê đơn thuốc.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
     private void transferPatientToAnotherDepartment() {
-    // Ví dụ danh sách bệnh nhân đã khám
-    String[] diagnosedPatients = {"Bệnh nhân A", "Bệnh nhân B", "Bệnh nhân C"}; // Thay thế bằng danh sách bệnh nhân đã khám thực tế
+        // Ví dụ danh sách bệnh nhân đã khám
+        String[] diagnosedPatients = {"Bệnh nhân A", "Bệnh nhân B", "Bệnh nhân C"}; // Thay thế bằng danh sách bệnh nhân đã khám thực tế
 
-    boolean isTransferred = false;
+        boolean isTransferred = false;
 
-    // Kiểm tra xem còn bệnh nhân đã khám nào chưa được chuyển sang khoa khác
-    for (String patient : diagnosedPatients) {
-        // Xử lý logic kiểm tra xem bệnh nhân đã được chuyển khoa khác hay chưa, ví dụ sử dụng một danh sách bệnh nhân đã chuyển khoa khác
-        // Nếu bệnh nhân chưa được chuyển khoa khác
-        if (!isTransferred) {
-            // Hiển thị danh sách bệnh nhân đã khám để người dùng chọn bệnh nhân muốn chuyển
-            String selectedDiagnosedPatient = (String) JOptionPane.showInputDialog(
-                this, "Chọn bệnh nhân đã khám:",
-                "Danh sách bệnh nhân đã khám",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                diagnosedPatients,
-                diagnosedPatients[0]
-            );
+        // Kiểm tra xem còn bệnh nhân đã khám nào chưa được chuyển sang khoa khác
+        for (String patient : diagnosedPatients) {
+            // Xử lý logic kiểm tra xem bệnh nhân đã được chuyển khoa khác hay chưa, ví dụ sử dụng một danh sách bệnh nhân đã chuyển khoa khác
+            // Nếu bệnh nhân chưa được chuyển khoa khác
+            if (!isTransferred) {
+                // Hiển thị danh sách bệnh nhân đã khám để người dùng chọn bệnh nhân muốn chuyển
+                String selectedDiagnosedPatient = (String) JOptionPane.showInputDialog(
+                        this, "Chọn bệnh nhân đã khám:",
+                        "Danh sách bệnh nhân đã khám",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        diagnosedPatients,
+                        diagnosedPatients[0]
+                );
 
-            if (selectedDiagnosedPatient != null) {
-                // Người dùng đã chọn một bệnh nhân đã khám, tiếp tục chuyển bệnh nhân sang khoa khác
-                String department = JOptionPane.showInputDialog(this, "Nhập tên khoa muốn chuyển bệnh nhân đến:");
-                if (department != null && !department.isEmpty()) {
-                    // Xử lý chuyển bệnh nhân sang khoa khác
-                    // sendToOtherDepartment(department, selectedDiagnosedPatient); // Phương thức này chuyển bệnh nhân sang khoa khác
-                    JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân " + selectedDiagnosedPatient + " đến khoa " + department, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    isTransferred = true; // Đã chuyển bệnh nhân thành công
+                if (selectedDiagnosedPatient != null) {
+                    // Người dùng đã chọn một bệnh nhân đã khám, tiếp tục chuyển bệnh nhân sang khoa khác
+                    String department = JOptionPane.showInputDialog(this, "Nhập tên khoa muốn chuyển bệnh nhân đến:");
+                    if (department != null && !department.isEmpty()) {
+                        // Xử lý chuyển bệnh nhân sang khoa khác
+                        // sendToOtherDepartment(department, selectedDiagnosedPatient); // Phương thức này chuyển bệnh nhân sang khoa khác
+                        JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân " + selectedDiagnosedPatient + " đến khoa " + department, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                        isTransferred = true; // Đã chuyển bệnh nhân thành công
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Chưa nhập tên khoa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Chưa nhập tên khoa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    // Người dùng không chọn bệnh nhân đã khám hoặc ấn X
+                    JOptionPane.showMessageDialog(this, "Thoát khỏi việc chuyển bệnh nhân.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    return; // Thoát ra khỏi phương thức khi người dùng không chọn bệnh nhân hoặc ấn X
                 }
-            } else {
-                // Người dùng không chọn bệnh nhân đã khám hoặc ấn X
-                JOptionPane.showMessageDialog(this, "Thoát khỏi việc chuyển bệnh nhân.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                return; // Thoát ra khỏi phương thức khi người dùng không chọn bệnh nhân hoặc ấn X
             }
         }
-    }
 
-    // Kiểm tra xem đã chuyển bệnh nhân cho tất cả bệnh nhân đã khám hay chưa
-    if (!isTransferred) {
-        JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần chuyển khoa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        // Kiểm tra xem đã chuyển bệnh nhân cho tất cả bệnh nhân đã khám hay chưa
+        if (!isTransferred) {
+            JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần chuyển khoa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
-}
 //    private void diagnoseLatestPatient(Doctor doctor) {
 //    Patient latestPatient = doctor.getLatestPatient();
 //    if (latestPatient != null) {
@@ -482,7 +501,7 @@ public class DoctorInterface extends JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -515,5 +534,5 @@ public class DoctorInterface extends JFrame {
     private JPanel jPanel3;
     private JScrollPane jScrollPane1;
     private JTextArea jTextArea1;
-    // End of variables declaration//GEN-END:variables
+
 }

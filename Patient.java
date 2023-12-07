@@ -6,9 +6,9 @@ public class Patient {
     private String age;
     private String gender;
     private String illness;
+    private String doctorsDiagnosis = "";
 
-
-    public Patient(String ID, String name, String address, String phone, String age, String gender, String illness) {
+    public Patient(String ID, String name, String phone, String age, String gender, String address, String illness) {
         this.ID = ID;
         this.name = name;
         this.address = address;
@@ -58,13 +58,6 @@ public class Patient {
         return gender;
     }
 
-    public void setSex(String sex) {
-        this.gender = sex;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
-    }
 
     public String getIllness() {
         return illness;
@@ -72,6 +65,14 @@ public class Patient {
 
     public void setIllness(String illness) {
         this.illness = illness;
+    }
+
+    public String getDoctorsDiagnosis() {
+        return doctorsDiagnosis;
+    }
+
+    public void setDoctorsDiagnosis(String doctorsDiagnosis) {
+        this.doctorsDiagnosis = doctorsDiagnosis;
     }
 
     @Override

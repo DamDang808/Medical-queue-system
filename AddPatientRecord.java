@@ -12,7 +12,6 @@ import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.LinkedList;
 import java.util.Objects;
 
 /**
@@ -248,7 +247,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
     }
 
     public void writeToCSV(String[] data) {
-        String csv = "data.csv";
+        String csv = "waiting.csv";
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
             writer.writeNext(data);
