@@ -4,11 +4,14 @@
  */
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -212,6 +215,7 @@ public class DoctorInterface extends JFrame {
             patientNow.setDoctorsDiagnosis(diagnosis);
             diagnosedPatients.add(patientNow);
             patientsWaiting.poll();
+            deleteFirstRowInCSV("waiting.csv");
             JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -378,18 +382,18 @@ public class DoctorInterface extends JFrame {
         JComboBox<String> patientsBox = new JComboBox<>();
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[]{});
         patientsBox.setModel(model);
-        boolean isPrescribed = false;
-        // Kiểm tra xem còn bệnh nhân đã khám nào chưa được kê đơn thuốc
+        boolean isPrescribed = true;
+
         for (Patient patient : diagnosedPatients) {
             // Kiểm tra xem đã kê đơn thuốc cho tất cả bệnh nhân đã khám hay chưa
+            // Nếu chưa kê đơn thuốc cho bệnh nhân nào thì hiển thị danh sách bệnh nhân đã khám để người dùng chọn bệnh nhân muốn kê đơn thuốc
             if (patient.getMedicine() == null) {
-                isPrescribed = true;
+                isPrescribed = false;
                 model.addElement(patient.getName());
             }
-            // Xử lý logic kiểm tra xem bệnh nhân đã được kê đơn thuốc hay chưa, ví dụ sử dụng một danh sách bệnh nhân đã kê đơn
-            // Nếu bệnh nhân chưa được kê đơn thuốc
         }
-        if (!isPrescribed) {
+
+        if (isPrescribed) {
             JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần kê đơn thuốc.",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -409,7 +413,6 @@ public class DoctorInterface extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Chưa nhập đơn thuốc!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     private void transferPatientToAnotherDepartment() {
@@ -480,6 +483,25 @@ public class DoctorInterface extends JFrame {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
         sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+    }
+
+    private void deleteFirstRowInCSV(String fileLocation) {
+        List<String[]> allElements;
+        try {
+            CSVReader reader2 = new CSVReader(new FileReader(fileLocation));
+            allElements = reader2.readAll();
+            if (allElements.isEmpty()) {
+                return;
+            }
+            allElements.remove(0);
+            FileWriter sw = new FileWriter(fileLocation);
+            CSVWriter writer = new CSVWriter(sw);
+            writer.writeAll(allElements);
+            writer.close();
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
