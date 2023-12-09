@@ -46,6 +46,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
     public AddPatientRecord(List<Doctor> allDoctors) {
         this.allDoctors = allDoctors;
+        this.setTitle("Thêm bệnh nhân");
         initComponents();
     }
 
@@ -202,7 +203,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
 //            }
 
             String[] patient = new String[]{id + "", name, phone, age + "", gender, address, history, department};
-            writeToCSV(patient);
+            writeToCSV(patient, "waiting.csv");
             JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
             idTextField.setText("");
             nameTextField.setText("");
@@ -210,6 +211,8 @@ public class AddPatientRecord extends javax.swing.JFrame {
             ageTextField.setText("");
             addressTextField.setText("");
             historyTextField.setText("");
+            genderBox.setSelectedIndex(0);
+            departmentBox.setSelectedIndex(0);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ID và Tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -226,6 +229,17 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setVisible(false);
+    }
+
+    public void writeToCSV(String[] data, String fileLocation) {
+        String csv = fileLocation;
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+            writer.writeNext(data);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -251,16 +265,5 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new AddPatientRecord(allDoctors).setVisible(true));
-    }
-
-    public void writeToCSV(String[] data) {
-        String csv = "waiting.csv";
-        try {
-            CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
-            writer.writeNext(data);
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

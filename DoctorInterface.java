@@ -33,6 +33,7 @@ import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -185,12 +186,12 @@ public class DoctorInterface extends JFrame {
                                 .addGap(48, 48, 48)
                                 .addComponent(jButton2)
                                 .addGap(56, 56, 56)
+                                .addComponent(jButton3)
+                                .addGap(53, 53, 53)
                                 .addComponent(jButton4)
                                 .addGap(47, 47, 47)
                                 .addComponent(jButton5)
                                 .addGap(41, 41, 41)
-                                .addComponent(jButton3)
-                                .addGap(53, 53, 53)
                                 .addComponent(jButton6, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
@@ -213,7 +214,7 @@ public class DoctorInterface extends JFrame {
         );
 
         doctor.getAccessibleContext().setAccessibleDescription("");
-
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
     }
 
@@ -236,6 +237,9 @@ public class DoctorInterface extends JFrame {
             diagnosedPatients.add(patientNow);
             patientsWaiting.poll();
             deleteFirstRowInCSV("waiting.csv");
+            String[] data = {patientNow.getID(), patientNow.getName(), patientNow.getPhone(), patientNow.getAge(),
+                    patientNow.getGender(), patientNow.getAddress(), patientNow.getDoctorsDiagnosis(), patientNow.getMedicine()};
+            writeToCSV(data, "diagnosed.csv");
             JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -274,7 +278,8 @@ public class DoctorInterface extends JFrame {
     }
 
     private void showPatientsWaitingTable() {
-        String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân", "Số điện thoại", "Tuổi", "Giới tính", "Địa chỉ", "Tình trạng bệnh", "Ngày khám"};
+        String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân", "Số điện thoại", "Tuổi", "Giới tính", "Địa chỉ",
+                "Tình trạng bệnh", "Thuốc đang sử dụng", "Ngày khám"};
         JTable table = new JTable(0, columnNames.length);
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
         table.setAutoCreateRowSorter(true);
@@ -288,10 +293,17 @@ public class DoctorInterface extends JFrame {
 
             // read all records at once
             List<String[]> records = csvReader.readAll();
+            // Get today's date
             LocalDate date = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            boolean firstRow = true;
+            // Import data from CSV file to table
             for (String[] data : records) {
-                String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], date.format(formatter)};
+                if (firstRow) {
+                    firstRow = false;
+                    continue;
+                }
+                String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], "", date.format(formatter)};
                 Patient patient = new Patient(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
                 model.addRow(row);
                 patientsWaiting.add(patient);
@@ -303,22 +315,39 @@ public class DoctorInterface extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1200, 600));
+
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(rowSorter);
         JTextField searchField = new JTextField(20);
-        searchField.getDocument().addDocumentListener(new DocumentListener() {
+        searchField.getDocument().addDocumentListener(new DocumentListener(){
+
             @Override
             public void insertUpdate(DocumentEvent e) {
-                search(searchField.getText(), table);
+                String text = searchField.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                search(searchField.getText(), table);
+                String text = searchField.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                search(searchField.getText(), table);
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
+
         });
 
         JPanel panel = new JPanel();
@@ -327,46 +356,6 @@ public class DoctorInterface extends JFrame {
         panel.add(scrollPane);
 
         JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đang chờ khám", JOptionPane.PLAIN_MESSAGE);
-    }
-
-    private void showDiagnosedPatientsTable() {
-        String[] columnNames = {"Số thứ tự", "Họ tên", "Tuổi", "Giới tính", "Chẩn đoán"};
-        JTable table = new JTable(0, columnNames.length);
-        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
-        table.setAutoCreateRowSorter(true);
-        table.setModel(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(1200, 600));
-
-        for (Patient patient : diagnosedPatients) {
-            String[] row = new String[]{patient.getID(), patient.getName(), patient.getAge(), patient.getGender(), patient.getDoctorsDiagnosis()};
-            model.addRow(row);
-        }
-
-        JTextField searchField = new JTextField(20);
-        searchField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                search(searchField.getText(), table);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                search(searchField.getText(), table);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                search(searchField.getText(), table);
-            }
-        });
-
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Tìm kiếm: "));
-        panel.add(searchField);
-        panel.add(scrollPane);
-
-        JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đã khám xong", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void prescribeMedicineToPatient() {
@@ -452,6 +441,63 @@ public class DoctorInterface extends JFrame {
         }
     }
 
+    private void showDiagnosedPatientsTable() {
+        String[] columnNames = {"Số thứ tự", "Họ tên", "Tuổi", "Giới tính", "Chẩn đoán", "Đơn thuốc"};
+        JTable table = new JTable(0, columnNames.length);
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
+        table.setAutoCreateRowSorter(true);
+        table.setModel(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1200, 600));
+
+        for (Patient patient : diagnosedPatients) {
+            String[] row = new String[]{patient.getID(), patient.getName(), patient.getAge(), patient.getGender(),
+                    patient.getDoctorsDiagnosis(), patient.getMedicine()};
+            model.addRow(row);
+        }
+
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(rowSorter);
+        JTextField searchField = new JTextField(20);
+        searchField.getDocument().addDocumentListener(new DocumentListener(){
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = searchField.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = searchField.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Tìm kiếm: "));
+        panel.add(searchField);
+        panel.add(scrollPane);
+
+        JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đã khám xong", JOptionPane.PLAIN_MESSAGE);
+    }
+
     private void search(String text, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
@@ -467,7 +513,7 @@ public class DoctorInterface extends JFrame {
             if (allElements.isEmpty()) {
                 return;
             }
-            allElements.remove(0);
+            allElements.remove(1);
             FileWriter sw = new FileWriter(fileLocation);
             CSVWriter writer = new CSVWriter(sw);
             writer.writeAll(allElements);
@@ -475,15 +521,24 @@ public class DoctorInterface extends JFrame {
         } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private ImageIcon changeImageSize(String fileLocation) {
         ImageIcon imageIcon = new ImageIcon(fileLocation); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newimg);  // transform it back
+        Image newImg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newImg);  // transform it back
         return imageIcon;
+    }
+    public void writeToCSV(String[] data, String fileLocation) {
+        String csv = fileLocation;
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+            writer.writeNext(data);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
