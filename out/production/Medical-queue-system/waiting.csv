@@ -1,5 +1,4 @@
-id,name,phonenumber,age,gender,address,medical_history,department_id
-"1","dang tuan anh","0987654321","12","Male","123 ","ốm","Khoa Tai-Mũi-Họng"
+"id","name","phonenumber","age","gender","address","medical_history","department_id"
 "2","tran khanh du","012312784123","56","Male","45 Thanh Xuân","Covid","Khoa Hồi sức tích cực"
 "3","nguyen vinh bao","092345273","24","Female","334 Nguyễn Trãi","đau xương","Khoa Xương khớp"
 "4","dam hai dang","077237137","78","Male","Quảng Ninh","Đau bụng","Khoa Nội"

@@ -24,6 +24,8 @@ public class AddPatientRecord extends javax.swing.JFrame {
      */
     // Variables declaration
     private static List<Doctor> allDoctors;
+    private final String REGEX_FOR_NAME = "/^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$";
+    private int numOfPatientToday = 1;
     private JButton exitButton;
     private JButton saveButton;
     private JComboBox<String> genderBox;
@@ -111,10 +113,11 @@ public class AddPatientRecord extends javax.swing.JFrame {
         genderLabel.setText("Giới tính:");
         getContentPane().add(genderLabel, new AbsoluteConstraints(190, 230, 113, 25));
 
-        idTextField.addActionListener(this::jTextField1ActionPerformed);
-        getContentPane().add(idTextField, new AbsoluteConstraints(400, 60, 381, 24));
+        idTextField.setText(numOfPatientToday + "");
+        idTextField.setEditable(false);
+        idTextField.setPreferredSize(new Dimension(200, 24));
 
-        nameTextField.addActionListener(this::jTextField2ActionPerformed);
+        getContentPane().add(idTextField, new AbsoluteConstraints(400, 60, 381, 24));
         getContentPane().add(nameTextField, new AbsoluteConstraints(400, 100, 381, 25));
         getContentPane().add(phoneNumberTextField, new AbsoluteConstraints(400, 140, 381, 30));
         getContentPane().add(ageTextField, new AbsoluteConstraints(400, 190, 381, 26));
@@ -125,9 +128,8 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
         historyLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         historyLabel.setText("Tiền sử bệnh án:");
-        getContentPane().add(historyLabel, new AbsoluteConstraints(190, 320, -1, 26));
 
-        historyTextField.addActionListener(this::jTextField7ActionPerformed);
+        getContentPane().add(historyLabel, new AbsoluteConstraints(190, 320, -1, 26));
         getContentPane().add(historyTextField, new AbsoluteConstraints(400, 320, 381, 26));
 
         saveButton.setText("Lưu");
@@ -155,29 +157,17 @@ public class AddPatientRecord extends javax.swing.JFrame {
         pack();
     }
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             int id = Integer.parseInt(idTextField.getText());
             int age = Integer.parseInt(ageTextField.getText());
-            if (id <= 0 || age <= 0) {
-                JOptionPane.showMessageDialog(this, "ID và Tuổi phải là số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            if (age <= 0) {
+                JOptionPane.showMessageDialog(this, "Tuổi phải là số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             String name = nameTextField.getText();
-            if (!name.matches("^[a-zA-Z\\s]+$")) {
+            if (!name.matches(REGEX_FOR_NAME)) {
                 JOptionPane.showMessageDialog(this, "Tên phải là chuỗi hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -202,10 +192,13 @@ public class AddPatientRecord extends javax.swing.JFrame {
 //                selectedDoctor.addPatientToQueue(patient);
 //            }
 
+            // Success
             String[] patient = new String[]{id + "", name, phone, age + "", gender, address, history, department};
             writeToCSV(patient, "waiting.csv");
             JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
-            idTextField.setText("");
+
+            // Update UI
+            numOfPatientToday++;
             nameTextField.setText("");
             phoneNumberTextField.setText("");
             ageTextField.setText("");
@@ -214,7 +207,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
             genderBox.setSelectedIndex(0);
             departmentBox.setSelectedIndex(0);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID và Tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -164,35 +164,29 @@ public class DoctorInterface extends JFrame {
                                         .addGroup(doctorLayout.createSequentialGroup()
                                                 .addGap(6, 6, 6)
                                                 .addGroup(doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jButton1)
-                                                        .addComponent(jButton2)
+                                                        .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jButton3, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jButton4, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jButton5, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(jButton6)))
-                                        .addGroup(doctorLayout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jButton3))
-                                        .addGroup(doctorLayout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jButton5))
-                                        .addGroup(doctorLayout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jButton4)))
-                                .addGap(475, 475, 475))
-        );
+                                .addGap(475, 475, 475)
+        )));
         doctorLayout.setVerticalGroup(
                 doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(doctorLayout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(jButton2)
-                                .addGap(56, 56, 56)
-                                .addComponent(jButton3)
-                                .addGap(53, 53, 53)
-                                .addComponent(jButton4)
-                                .addGap(47, 47, 47)
-                                .addComponent(jButton5)
-                                .addGap(41, 41, 41)
-                                .addComponent(jButton6, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton1, 80, 80, 80)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton2, 80, 80, 80)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton3, 80, 80, 80)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton4, 80, 80, 80)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton5, 80, 80, 80)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton6, 80, 80, 80)
                                 .addContainerGap())
         );
 
@@ -316,43 +310,9 @@ public class DoctorInterface extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1200, 600));
 
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
-        table.setRowSorter(rowSorter);
-        JTextField searchField = new JTextField(20);
-        searchField.getDocument().addDocumentListener(new DocumentListener(){
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = searchField.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = searchField.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        });
-
         JPanel panel = new JPanel();
         panel.add(new JLabel("Tìm kiếm: "));
-        panel.add(searchField);
+        panel.add(addSearchBar(table));
         panel.add(scrollPane);
 
         JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đang chờ khám", JOptionPane.PLAIN_MESSAGE);
@@ -456,55 +416,13 @@ public class DoctorInterface extends JFrame {
             model.addRow(row);
         }
 
-        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
-        table.setRowSorter(rowSorter);
-        JTextField searchField = new JTextField(20);
-        searchField.getDocument().addDocumentListener(new DocumentListener(){
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = searchField.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = searchField.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        });
-
         JPanel panel = new JPanel();
         panel.add(new JLabel("Tìm kiếm: "));
-        panel.add(searchField);
+        panel.add(addSearchBar(table));
         panel.add(scrollPane);
 
         JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đã khám xong", JOptionPane.PLAIN_MESSAGE);
     }
-
-    private void search(String text, JTable table) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
-        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-    }
-
     private void deleteFirstRowInCSV(String fileLocation) {
         List<String[]> allElements;
         try {
@@ -539,6 +457,43 @@ public class DoctorInterface extends JFrame {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private JTextField addSearchBar(JTable table) {
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(rowSorter);
+        JTextField searchField = new JTextField(20);
+        searchField.getDocument().addDocumentListener(new DocumentListener(){
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = searchField.getText();
+
+                if (text.trim().isEmpty()) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = searchField.getText();
+
+                if (text.trim().isEmpty()) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });
+        return searchField;
     }
 
     /**
