@@ -4,6 +4,7 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +12,12 @@ import java.util.Objects;
  * @author adm
  */
 public class Home extends javax.swing.JFrame {
+    // Variables declaration
+    private JButton addPatientButton;
+    private JButton exitButton;
+    private JButton doctorButton;
+    private JLabel jLabel1;
+    private JLabel jLabel2;
     private List<Doctor> allDoctors;
 
     public Home(List<Doctor> allDoctors) {
@@ -35,6 +42,7 @@ public class Home extends javax.swing.JFrame {
 
         addPatientButton = new JButton();
         exitButton = new JButton();
+        doctorButton = new JButton();
         jLabel1 = new JLabel();
         jLabel2 = new JLabel();
 
@@ -43,40 +51,65 @@ public class Home extends javax.swing.JFrame {
         setPreferredSize(new Dimension(1000, 600));
         getContentPane().setLayout(new AbsoluteLayout());
 
+        addPatientButton.setBackground(new Color(0, 255, 0));
         addPatientButton.setIcon(new ImageIcon("Interface-image/Patient.jpg"));
         addPatientButton.setText("Thêm bệnh nhân");
         addPatientButton.setHorizontalTextPosition(SwingConstants.RIGHT);
-        addPatientButton.setPreferredSize(new Dimension(196, 77));
+        addPatientButton.setPreferredSize(new Dimension(200, 80));
         addPatientButton.addActionListener(this::addPatientButtonActionPerformed);
-        getContentPane().add(addPatientButton, new AbsoluteConstraints(30, 230, -1, -1));
+        getContentPane().add(addPatientButton, new AbsoluteConstraints(30, 140, 196, -1));
 
+        exitButton.setBackground(new Color(0, 255, 0));
         exitButton.setIcon(new ImageIcon("Interface-image/logout.jpg"));
         exitButton.setText("Thoát");
         exitButton.setHorizontalAlignment(SwingConstants.LEFT);
-        exitButton.setPreferredSize(new Dimension(196, 77));
+        exitButton.setPreferredSize(new Dimension(200, 80));
         exitButton.addActionListener(this::exitButtonActionPerformed);
-        getContentPane().add(exitButton, new AbsoluteConstraints(30, 340, -1, -1));
+        getContentPane().add(exitButton, new AbsoluteConstraints(30, 360, -1, -1));
         getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
 
+        doctorButton.setBackground(new Color(0, 255, 0));
+        doctorButton.setIcon(changeSizeImage("Interface-image/doctor.png")); // NOI18N
+        doctorButton.setText("Bác sĩ");
+        doctorButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        doctorButton.setHorizontalAlignment(SwingConstants.LEFT);
+        doctorButton.setPreferredSize(new Dimension(200, 80));
+        doctorButton.addActionListener(this::doctorButtonActionPerformed);
+        getContentPane().add(doctorButton, new AbsoluteConstraints(30, 250, 196, -1));
+
+
         jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/hospital.jpg"))));
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("background");
+        jLabel2.setPreferredSize(new Dimension(1000, 600));
         getContentPane().add(jLabel2, new AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }
 
-    private void addPatientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void doctorButtonActionPerformed(ActionEvent actionEvent) {
+        new DoctorInterface().setVisible(true);
+    }
+
+    private void addPatientButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         new AddPatientRecord(allDoctors).setVisible(true);
     }
 
-    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void exitButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         int a = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thoát?", "Select", JOptionPane.YES_NO_OPTION);
         if (a == 0) {
             setVisible(false);
             System.exit(0);
         }
+    }
+
+    private ImageIcon changeSizeImage(String fileLocation) {
+        ImageIcon imageIcon = new ImageIcon(fileLocation); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newimg);  // transform it back
+        return imageIcon;
     }
 
     /**
@@ -104,9 +137,5 @@ public class Home extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new Home().setVisible(true));
     }
 
-    // Variables declaration
-    private javax.swing.JButton addPatientButton;
-    private javax.swing.JButton exitButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+
 }

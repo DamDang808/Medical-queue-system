@@ -22,7 +22,27 @@ public class AddPatientRecord extends javax.swing.JFrame {
     /**
      * Creates new form addPatient
      */
+    // Variables declaration
     private static List<Doctor> allDoctors;
+    private JButton exitButton;
+    private JButton saveButton;
+    private JComboBox<String> genderBox;
+    private JComboBox<String> departmentBox;
+    private JLabel idLabel;
+    private JLabel logoLabel;
+    private JLabel nameLabel;
+    private JLabel phoneNumberLabel;
+    private JLabel addressLabel;
+    private JLabel ageLabel;
+    private JLabel genderLabel;
+    private JLabel historyLabel;
+    private JLabel toDepartmentLabel;
+    private JTextField idTextField;
+    private JTextField nameTextField;
+    private JTextField phoneNumberTextField;
+    private JTextField ageTextField;
+    private JTextField addressTextField;
+    private JTextField historyTextField;
 
     public AddPatientRecord(List<Doctor> allDoctors) {
         this.allDoctors = allDoctors;
@@ -66,27 +86,27 @@ public class AddPatientRecord extends javax.swing.JFrame {
         getContentPane().setLayout(new AbsoluteLayout());
 
         idLabel.setBackground(new Color(0, 255, 0));
-        idLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        idLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         idLabel.setText("ID:");
         getContentPane().add(idLabel, new AbsoluteConstraints(190, 60, 74, 24));
 
-        nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         nameLabel.setText("Họ và tên: ");
         getContentPane().add(nameLabel, new AbsoluteConstraints(190, 100, -1, 25));
 
-        phoneNumberLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        phoneNumberLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         phoneNumberLabel.setText("Số điện thoại: ");
         getContentPane().add(phoneNumberLabel, new AbsoluteConstraints(190, 140, 113, 30));
 
-        addressLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        addressLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         addressLabel.setText("Địa chỉ: ");
         getContentPane().add(addressLabel, new AbsoluteConstraints(190, 280, 113, 24));
 
-        ageLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        ageLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         ageLabel.setText("Tuổi:");
         getContentPane().add(ageLabel, new AbsoluteConstraints(190, 190, 113, 26));
 
-        genderLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        genderLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         genderLabel.setText("Giới tính:");
         getContentPane().add(genderLabel, new AbsoluteConstraints(190, 230, 113, 25));
 
@@ -102,7 +122,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         genderBox.setModel(new DefaultComboBoxModel<>(new String[]{"Male", "Female"}));
         getContentPane().add(genderBox, new AbsoluteConstraints(400, 230, 381, 25));
 
-        historyLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        historyLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
         historyLabel.setText("Tiền sử bệnh án:");
         getContentPane().add(historyLabel, new AbsoluteConstraints(190, 320, -1, 26));
 
@@ -111,20 +131,23 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
         saveButton.setText("Save");
         saveButton.addActionListener(this::saveButtonActionPerformed);
-        getContentPane().add(saveButton, new AbsoluteConstraints(80, 490, -1, -1));
+        saveButton.setPreferredSize(new Dimension(80, 50));
+        getContentPane().add(saveButton, new AbsoluteConstraints(850, 490, -1, -1));
 
         exitButton.setText("Thoát");
         exitButton.addActionListener(this::exitButtonActionPerformed);
-        getContentPane().add(exitButton, new AbsoluteConstraints(850, 490, -1, -1));
+        exitButton.setPreferredSize(new Dimension(80, 50));
+        getContentPane().add(exitButton, new AbsoluteConstraints(80, 490, -1, -1));
 
-        toDepartmentLabel.setFont(new Font("Segoe UI", Font.BOLD, 14)); // NOI18N
+        toDepartmentLabel.setFont(new Font("Arial", Font.BOLD, 16));
         toDepartmentLabel.setText("Chuyển đến:");
         getContentPane().add(toDepartmentLabel, new AbsoluteConstraints(190, 360, 113, 32));
 
-        departmentBox.setModel(new DefaultComboBoxModel<>(new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản", "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"}));
+        departmentBox.setModel(new DefaultComboBoxModel<>(new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
+                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"}));
         getContentPane().add(departmentBox, new AbsoluteConstraints(400, 360, 381, 32));
 
-        logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/Interface-image/logo.jpg")))); // NOI18N
+        logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image\\logo.jpg")))); // NOI18N
         logoLabel.setText("jLabel10");
         getContentPane().add(logoLabel, new AbsoluteConstraints(0, 0, -1, -1));
 
@@ -187,12 +210,11 @@ public class AddPatientRecord extends javax.swing.JFrame {
                 return false;
             }
 
-            String gender = String.valueOf(genderBox.getSelectedItem());
             String address = addressTextField.getText();
             String phone = phoneNumberTextField.getText();
             String history = historyTextField.getText();
 
-            if (gender.isEmpty() || address.isEmpty() || phone.isEmpty() || history.isEmpty()) {
+            if (address.isEmpty() || phone.isEmpty() || history.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin của bệnh nhân.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
@@ -218,7 +240,6 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         setVisible(false);
-        System.exit(0);
     }
 
     /**
@@ -256,24 +277,4 @@ public class AddPatientRecord extends javax.swing.JFrame {
             throw new RuntimeException(e);
         }
     }
-    // Variables declaration
-    private JButton exitButton;
-    private JButton saveButton;
-    private JComboBox<String> genderBox;
-    private JComboBox<String> departmentBox;
-    private JLabel idLabel;
-    private JLabel logoLabel;
-    private JLabel nameLabel;
-    private JLabel phoneNumberLabel;
-    private JLabel addressLabel;
-    private JLabel ageLabel;
-    private JLabel genderLabel;
-    private JLabel historyLabel;
-    private JLabel toDepartmentLabel;
-    private JTextField idTextField;
-    private JTextField nameTextField;
-    private JTextField phoneNumberTextField;
-    private JTextField ageTextField;
-    private JTextField addressTextField;
-    private JTextField historyTextField;
 }

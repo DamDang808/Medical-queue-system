@@ -43,13 +43,25 @@ public class DoctorInterface extends JFrame {
     /**
      * Creates new form NewJFrame
      */
+    // Variables declaration
+    private JPanel doctor;
+    private JButton jButton1;
+    private JButton jButton2;
+    private JButton jButton3;
+    private JButton jButton4;
+    private JButton jButton5;
+    private JButton jButton6;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JPanel jPanel3;
+    private JScrollPane jScrollPane1;
+    private JTextArea jTextArea1;
     private Patient patient;
     private Queue<Patient> patientsWaiting = new LinkedList<>();
     private List<Patient> diagnosedPatients = new LinkedList<>();
 
     public DoctorInterface() {
         this.setTitle("Doctor");
-        this.setVisible(true);
         initComponents();
     }
 
@@ -67,7 +79,7 @@ public class DoctorInterface extends JFrame {
         jPanel1 = new JPanel();
         jPanel2 = new JPanel();
         jPanel3 = new JPanel();
-        Doctor = new JPanel();
+        doctor = new JPanel();
         jButton1 = new JButton();
         jButton2 = new JButton();
         jButton3 = new JButton();
@@ -112,35 +124,38 @@ public class DoctorInterface extends JFrame {
                         .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        jButton1.setIcon(new ImageIcon("mediqueue\\icons8-test-results-100.png")); // NOI18N
+        jButton1.setIcon(changeSizeImage("Interface-image/icons8-test-results-100.png")); // NOI18N
         jButton1.setText("Danh sách bệnh nhân đang chờ khám");
+
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jButton2.setIcon(new ImageIcon("mediqueue\\img1.icons8.png")); // NOI18N
+        jButton2.setIcon(changeSizeImage("Interface-image/img1.icons8.png")); // NOI18N
         jButton2.setText("Chấn đoán cho bệnh nhân đã khám xong");
+
         jButton2.addItemListener(this::jButton2ItemStateChanged);
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jButton3.setIcon(new ImageIcon("mediqueue\\icons8-prescription-64.png")); // NOI18N
+        jButton3.setIcon(changeSizeImage("Interface-image/icons8-prescription-64.png")); // NOI18N
         jButton3.setText("Kê đơn thuốc cho bệnh nhân");
+
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
-        jButton4.setIcon(new ImageIcon("mediqueue\\OIP.jpg")); // NOI18N
+        jButton4.setIcon(changeSizeImage("Interface-image/OIP.jpg")); // NOI18N
         jButton4.setText("Chuyển bệnh nhân đi xét nghiệm hoặc chuyển qua chuyên khoa khác");
+
         jButton4.addActionListener(this::jButton4ActionPerformed);
 
-        jButton5.setIcon(new ImageIcon("mediqueue\\icons8-todo-list-48.png")); // NOI18N
+        jButton5.setIcon(changeSizeImage("Interface-image/icons8-todo-list-48.png")); // NOI18N
         jButton5.setText("Danh sách bệnh nhân đã khám xong");
+
         jButton5.addActionListener(this::jButton5ActionPerformed);
 
-        jButton6.setIcon(new ImageIcon("mediqueue\\icons8-exit-100.png")); // NOI18N
+        jButton6.setIcon(changeSizeImage("Interface-image/icons8-exit-100.png")); // NOI18N
         jButton6.setText("Thoát");
         jButton6.addActionListener(this::jButton6ActionPerformed);
 
-        GroupLayout DoctorLayout = new GroupLayout(Doctor);
-        Doctor.setLayout(DoctorLayout);
+        GroupLayout DoctorLayout = new GroupLayout(doctor);
+        doctor.setLayout(DoctorLayout);
         DoctorLayout.setHorizontalGroup(
                 DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(DoctorLayout.createSequentialGroup()
@@ -186,18 +201,18 @@ public class DoctorInterface extends JFrame {
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(Doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(Doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(doctor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
         );
 
-        Doctor.getAccessibleContext().setAccessibleDescription("");
+        doctor.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }
@@ -210,8 +225,12 @@ public class DoctorInterface extends JFrame {
     private void jButton2ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         Patient patientNow = patientsWaiting.peek();
+        if (patientNow == null) {
+            JOptionPane.showMessageDialog(this, "Không có bệnh nhân nào đang chờ khám!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         String diagnosis = JOptionPane.showInputDialog(this, "Nhập chẩn đoán cho bệnh nhân đã khám xong:");
-        if (patientNow != null && diagnosis != null && !diagnosis.isEmpty()) {
+        if (diagnosis != null && !diagnosis.isEmpty()) {
             patientNow.setDoctorsDiagnosis(diagnosis);
             diagnosedPatients.add(patientNow);
             patientsWaiting.poll();
@@ -241,46 +260,16 @@ public class DoctorInterface extends JFrame {
 
     private void jButton6ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thoát?",
+                "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            this.setVisible(false);
         }
     }
 
     private void jButton2ItemStateChanged(ItemEvent evt) {
         // TODO add your handling code here:
     }
-
-
-    //    private void search1(String text) {
-//        // Lọc dữ liệu dựa trên nội dung tìm kiếm
-//        List<Object[]> filteredData = new ArrayList<>();
-//        for (int i = 0; i < diagnosedPatientsModel.getRowCount(); i++) {
-//            boolean found = false;
-//            for (int j = 0; j < diagnosedPatientsModel.getColumnCount(); j++) {
-//                Object cellValue = diagnosedPatientsModel.getValueAt(i, j);
-//                if (cellValue != null && cellValue.toString().toLowerCase().contains(text.toLowerCase())) {
-//                    found = true;
-//                    break;
-//                }
-//            }
-//            if (found) {
-//                Object[] rowData = new Object[diagnosedPatientsModel.getColumnCount()];
-//                for (int k = 0; k < diagnosedPatientsModel.getColumnCount(); k++) {
-//                    rowData[k] = diagnosedPatientsModel.getValueAt(i, k);
-//                }
-//                filteredData.add(rowData);
-//            }
-//        }
-//
-//        // Xóa hết dữ liệu hiện tại trên JTable
-//        while (diagnosedPatientsModel.getRowCount() > 0) {
-//            diagnosedPatientsModel.removeRow(0);
-//        }
-//
-//        // Thêm lại dữ liệu đã lọc vào JTable
-//        filteredData.forEach(diagnosedPatientsModel::addRow);
-//    }
 
     private void showPatientsWaitingTable() {
         String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân", "Số điện thoại", "Tuổi", "Giới tính", "Địa chỉ", "Tình trạng bệnh", "Ngày khám"};
@@ -460,23 +449,6 @@ public class DoctorInterface extends JFrame {
             JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần chuyển khoa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-//    private void diagnoseLatestPatient(Doctor doctor) {
-//    Patient latestPatient = doctor.getLatestPatient();
-//    if (latestPatient != null) {
-//        String patientName = latestPatient.getName();
-//        String diagnosis = JOptionPane.showInputDialog(doctor, "Nhập chẩn đoán cho bệnh nhân " + patientName + ":");
-//        if (diagnosis != null && !diagnosis.isEmpty()) {
-//            PatientVisit patientVisit = new PatientVisit(patientName, diagnosis);
-//            doctor.setLatestPatientVisit(patientVisit);
-//            JOptionPane.showMessageDialog(doctor, "Chẩn đoán của bệnh nhân " + patientName + ": " + diagnosis, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//        } else {
-//            JOptionPane.showMessageDialog(doctor, "Chưa nhập chẩn đoán!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//        }
-//    } else {
-//        JOptionPane.showMessageDialog(doctor, "Không có bệnh nhân nào được chọn!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//    }
-//}
-
 
     private void search(String text, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -502,6 +474,14 @@ public class DoctorInterface extends JFrame {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private ImageIcon changeSizeImage(String fileLocation) {
+        ImageIcon imageIcon = new ImageIcon(fileLocation); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newimg);  // transform it back
+        return imageIcon;
     }
 
     /**
@@ -530,19 +510,4 @@ public class DoctorInterface extends JFrame {
         /* Create and display the form */
         EventQueue.invokeLater(() -> new DoctorInterface().setVisible(true));
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JPanel Doctor;
-    private JButton jButton1;
-    private JButton jButton2;
-    private JButton jButton3;
-    private JButton jButton4;
-    private JButton jButton5;
-    private JButton jButton6;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel3;
-    private JScrollPane jScrollPane1;
-    private JTextArea jTextArea1;
-
 }
