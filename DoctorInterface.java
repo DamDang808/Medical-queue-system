@@ -124,62 +124,62 @@ public class DoctorInterface extends JFrame {
                         .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        jButton1.setIcon(changeSizeImage("Interface-image/icons8-test-results-100.png")); // NOI18N
+        jButton1.setIcon(changeImageSize("Interface-image/icons8-test-results-100.png"));
         jButton1.setText("Danh sách bệnh nhân đang chờ khám");
 
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jButton2.setIcon(changeSizeImage("Interface-image/img1.icons8.png")); // NOI18N
+        jButton2.setIcon(changeImageSize("Interface-image/img1.icons8.png"));
         jButton2.setText("Chấn đoán cho bệnh nhân đã khám xong");
 
         jButton2.addItemListener(this::jButton2ItemStateChanged);
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jButton3.setIcon(changeSizeImage("Interface-image/icons8-prescription-64.png")); // NOI18N
+        jButton3.setIcon(changeImageSize("Interface-image/icons8-prescription-64.png"));
         jButton3.setText("Kê đơn thuốc cho bệnh nhân");
 
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
-        jButton4.setIcon(changeSizeImage("Interface-image/OIP.jpg")); // NOI18N
+        jButton4.setIcon(changeImageSize("Interface-image/OIP.jpg"));
         jButton4.setText("Chuyển bệnh nhân đi xét nghiệm hoặc chuyển qua chuyên khoa khác");
 
         jButton4.addActionListener(this::jButton4ActionPerformed);
 
-        jButton5.setIcon(changeSizeImage("Interface-image/icons8-todo-list-48.png")); // NOI18N
+        jButton5.setIcon(changeImageSize("Interface-image/icons8-todo-list-48.png"));
         jButton5.setText("Danh sách bệnh nhân đã khám xong");
 
         jButton5.addActionListener(this::jButton5ActionPerformed);
 
-        jButton6.setIcon(changeSizeImage("Interface-image/icons8-exit-100.png")); // NOI18N
+        jButton6.setIcon(changeImageSize("Interface-image/icons8-exit-100.png"));
         jButton6.setText("Thoát");
         jButton6.addActionListener(this::jButton6ActionPerformed);
 
-        GroupLayout DoctorLayout = new GroupLayout(doctor);
-        doctor.setLayout(DoctorLayout);
-        DoctorLayout.setHorizontalGroup(
-                DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(DoctorLayout.createSequentialGroup()
-                                .addGroup(DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(DoctorLayout.createSequentialGroup()
+        GroupLayout doctorLayout = new GroupLayout(doctor);
+        doctor.setLayout(doctorLayout);
+        doctorLayout.setHorizontalGroup(
+                doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(doctorLayout.createSequentialGroup()
+                                .addGroup(doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(doctorLayout.createSequentialGroup()
                                                 .addGap(6, 6, 6)
-                                                .addGroup(DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                .addGroup(doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                                         .addComponent(jButton1)
                                                         .addComponent(jButton2)
                                                         .addComponent(jButton6)))
-                                        .addGroup(DoctorLayout.createSequentialGroup()
+                                        .addGroup(doctorLayout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(jButton3))
-                                        .addGroup(DoctorLayout.createSequentialGroup()
+                                        .addGroup(doctorLayout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(jButton5))
-                                        .addGroup(DoctorLayout.createSequentialGroup()
+                                        .addGroup(doctorLayout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(jButton4)))
                                 .addGap(475, 475, 475))
         );
-        DoctorLayout.setVerticalGroup(
-                DoctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(DoctorLayout.createSequentialGroup()
+        doctorLayout.setVerticalGroup(
+                doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(doctorLayout.createSequentialGroup()
                                 .addGap(36, 36, 36)
                                 .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
@@ -226,7 +226,8 @@ public class DoctorInterface extends JFrame {
         // TODO add your handling code here:
         Patient patientNow = patientsWaiting.peek();
         if (patientNow == null) {
-            JOptionPane.showMessageDialog(this, "Không có bệnh nhân nào đang chờ khám!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Không có bệnh nhân nào đang chờ khám!",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         String diagnosis = JOptionPane.showInputDialog(this, "Nhập chẩn đoán cho bệnh nhân đã khám xong:");
@@ -238,7 +239,8 @@ public class DoctorInterface extends JFrame {
             JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Chưa nhập chẩn đoán!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Chưa nhập chẩn đoán!",
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -476,7 +478,7 @@ public class DoctorInterface extends JFrame {
 
     }
 
-    private ImageIcon changeSizeImage(String fileLocation) {
+    private ImageIcon changeImageSize(String fileLocation) {
         ImageIcon imageIcon = new ImageIcon(fileLocation); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way

@@ -129,7 +129,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         historyTextField.addActionListener(this::jTextField7ActionPerformed);
         getContentPane().add(historyTextField, new AbsoluteConstraints(400, 320, 381, 26));
 
-        saveButton.setText("Save");
+        saveButton.setText("Lưu");
         saveButton.addActionListener(this::saveButtonActionPerformed);
         saveButton.setPreferredSize(new Dimension(80, 50));
         getContentPane().add(saveButton, new AbsoluteConstraints(850, 490, -1, -1));
@@ -167,47 +167,18 @@ public class AddPatientRecord extends javax.swing.JFrame {
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        if (isValidInput()) {
-            String id = idTextField.getText();
-            idTextField.setText("");
-            String name = nameTextField.getText();
-            nameTextField.setText("");
-            String phone = phoneNumberTextField.getText();
-            phoneNumberTextField.setText("");
-            String age = ageTextField.getText();
-            ageTextField.setText("");
-            String address = addressTextField.getText();
-            addressTextField.setText("");
-            String history = historyTextField.getText();
-            historyTextField.setText("");
-            String gender = String.valueOf(genderBox.getSelectedItem());
-            String department = String.valueOf(departmentBox.getSelectedItem());
-
-            String[] patient = new String[]{id, name, phone, age, gender, address, history, department};
-            writeToCSV(patient);
-            JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
-//            Doctor selectedDoctor = findDoctorByDepartment(department);
-//            if (selectedDoctor != null) {
-//                selectedDoctor.addPatientToQueue(patient);
-//            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid input.");
-        }
-    }
-
-    private boolean isValidInput() {
         try {
             int id = Integer.parseInt(idTextField.getText());
             int age = Integer.parseInt(ageTextField.getText());
             if (id <= 0 || age <= 0) {
                 JOptionPane.showMessageDialog(this, "ID và Tuổi phải là số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
+                return;
             }
 
             String name = nameTextField.getText();
             if (!name.matches("^[a-zA-Z\\s]+$")) {
                 JOptionPane.showMessageDialog(this, "Tên phải là chuỗi hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
+                return;
             }
 
             String address = addressTextField.getText();
@@ -216,16 +187,31 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
             if (address.isEmpty() || phone.isEmpty() || history.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin của bệnh nhân.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
+                return;
             }
             if (!phone.matches("^\\d+$")) {
                 JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
+                return;
             }
-            return true;
+
+            String gender = String.valueOf(genderBox.getSelectedItem());
+            String department = String.valueOf(departmentBox.getSelectedItem());
+//            Doctor selectedDoctor = findDoctorByDepartment(department);
+//            if (selectedDoctor != null) {
+//                selectedDoctor.addPatientToQueue(patient);
+//            }
+
+            String[] patient = new String[]{id + "", name, phone, age + "", gender, address, history, department};
+            writeToCSV(patient);
+            JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
+            idTextField.setText("");
+            nameTextField.setText("");
+            phoneNumberTextField.setText("");
+            ageTextField.setText("");
+            addressTextField.setText("");
+            historyTextField.setText("");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ID và Tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return false;
         }
     }
 
