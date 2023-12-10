@@ -62,7 +62,7 @@ public class DoctorInterface extends JFrame {
     private List<Patient> diagnosedPatients = new LinkedList<>();
 
     public DoctorInterface() {
-        this.setTitle("Doctor");
+        this.setTitle("Bác sĩ");
         initComponents();
     }
 
@@ -230,7 +230,7 @@ public class DoctorInterface extends JFrame {
             patientNow.setDoctorsDiagnosis(diagnosis);
             diagnosedPatients.add(patientNow);
             patientsWaiting.poll();
-            deleteFirstRowInCSV("waiting.csv");
+            deleteFirstRowInCSV("khoanoi.csv");
             String[] data = {patientNow.getID(), patientNow.getName(), patientNow.getPhone(), patientNow.getAge(),
                     patientNow.getGender(), patientNow.getAddress(), patientNow.getDoctorsDiagnosis(), patientNow.getMedicine()};
             writeToCSV(data, "diagnosed.csv");
@@ -280,7 +280,7 @@ public class DoctorInterface extends JFrame {
         table.setModel(model);
 
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("waiting.csv"));
+            Reader reader = Files.newBufferedReader(Paths.get("khoanoi.csv"));
 
             // create csv reader
             CSVReader csvReader = new CSVReader(reader);
@@ -357,47 +357,21 @@ public class DoctorInterface extends JFrame {
 
     private void transferPatientToAnotherDepartment() {
         // Ví dụ danh sách bệnh nhân đã khám
-        String[] diagnosedPatients = {"Bệnh nhân A", "Bệnh nhân B", "Bệnh nhân C"}; // Thay thế bằng danh sách bệnh nhân đã khám thực tế
-
-        boolean isTransferred = false;
-
-        // Kiểm tra xem còn bệnh nhân đã khám nào chưa được chuyển sang khoa khác
-        for (String patient : diagnosedPatients) {
-            // Xử lý logic kiểm tra xem bệnh nhân đã được chuyển khoa khác hay chưa, ví dụ sử dụng một danh sách bệnh nhân đã chuyển khoa khác
-            // Nếu bệnh nhân chưa được chuyển khoa khác
-            if (!isTransferred) {
-                // Hiển thị danh sách bệnh nhân đã khám để người dùng chọn bệnh nhân muốn chuyển
-                String selectedDiagnosedPatient = (String) JOptionPane.showInputDialog(
-                        this, "Chọn bệnh nhân đã khám:",
-                        "Danh sách bệnh nhân đã khám",
-                        JOptionPane.PLAIN_MESSAGE,
-                        null,
-                        diagnosedPatients,
-                        diagnosedPatients[0]
-                );
-
-                if (selectedDiagnosedPatient != null) {
-                    // Người dùng đã chọn một bệnh nhân đã khám, tiếp tục chuyển bệnh nhân sang khoa khác
-                    String department = JOptionPane.showInputDialog(this, "Nhập tên khoa muốn chuyển bệnh nhân đến:");
-                    if (department != null && !department.isEmpty()) {
-                        // Xử lý chuyển bệnh nhân sang khoa khác
-                        // sendToOtherDepartment(department, selectedDiagnosedPatient); // Phương thức này chuyển bệnh nhân sang khoa khác
-                        JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân " + selectedDiagnosedPatient + " đến khoa " + department, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                        isTransferred = true; // Đã chuyển bệnh nhân thành công
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Chưa nhập tên khoa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    // Người dùng không chọn bệnh nhân đã khám hoặc ấn X
-                    JOptionPane.showMessageDialog(this, "Thoát khỏi việc chuyển bệnh nhân.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    return; // Thoát ra khỏi phương thức khi người dùng không chọn bệnh nhân hoặc ấn X
-                }
-            }
-        }
-
-        // Kiểm tra xem đã chuyển bệnh nhân cho tất cả bệnh nhân đã khám hay chưa
-        if (!isTransferred) {
-            JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần chuyển khoa.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        String[] department = new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
+                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"};
+        String selectedDepartment = (String) JOptionPane.showInputDialog(
+                this, "Chọn khoa cần chuyển bệnh nhân đến:",
+                "Danh sách khoa",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                department,
+                department[0]
+        );
+        if (selectedDepartment != null && !selectedDepartment.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân đến khoa " + selectedDepartment,
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn khoa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 

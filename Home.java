@@ -29,6 +29,7 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     public Home() {
+        this.setTitle("Quản lý bệnh viện");
         initComponents();
     }
 

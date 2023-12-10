@@ -24,7 +24,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
      */
     // Variables declaration
     private static List<Doctor> allDoctors;
-    private final String REGEX_FOR_NAME = "/^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$";
+    private final String REGEX_FOR_NAME = "^([a-z]+)((\\s{1}[a-z]+){1,})$";
     private int numOfPatientToday = 1;
     private JButton exitButton;
     private JButton saveButton;
@@ -193,8 +193,33 @@ public class AddPatientRecord extends javax.swing.JFrame {
 //            }
 
             // Success
-            String[] patient = new String[]{id + "", name, phone, age + "", gender, address, history, department};
-            writeToCSV(patient, "waiting.csv");
+            String[] patient = new String[]{id + "", name, phone, age + "", gender, address, history};
+            switch (department) {
+                case "Khoa Nội":
+                    writeToCSV(patient, "khoanoi.csv");
+                    break;
+                case "Khoa Ngoại":
+                    writeToCSV(patient, "khoangoai.csv");
+                    break;
+                case "Khoa Phụ sản":
+                    writeToCSV(patient, "khoaphusan.csv");
+                    break;
+                case "Khoa Tai-Mũi-Họng":
+                    writeToCSV(patient, "khoataimuihong.csv");
+                    break;
+                case "Khoa Hồi sức tích cực":
+                    writeToCSV(patient, "khoahoisuctichcuc.csv");
+                    break;
+                case "Khoa Răng-Hàm-Mặt":
+                    writeToCSV(patient, "khoaranghammat.csv");
+                    break;
+                case "Khoa Ung bướu":
+                    writeToCSV(patient, "khoaungbuou.csv");
+                    break;
+                case "Khoa Xương khớp":
+                    writeToCSV(patient, "khoaxuongkhop.csv");
+                    break;
+            }
             JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
 
             // Update UI
