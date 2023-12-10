@@ -219,20 +219,27 @@ public class DoctorInterface extends JFrame {
 
     private void jButton2ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        Patient patientNow = patientsWaiting.peek();
-        if (patientNow == null) {
+        patient = patientsWaiting.peek();
+        if (patient == null) {
             JOptionPane.showMessageDialog(this, "Không có bệnh nhân nào đang chờ khám!",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        String diagnosis = JOptionPane.showInputDialog(this, "Nhập chẩn đoán cho bệnh nhân đã khám xong:");
+        String diagnosis = "";
+        JTextArea ta = new JTextArea(20, 20);
+        switch (JOptionPane.showConfirmDialog(null, new JScrollPane(ta),
+                "Nhập chẩn đoán cho bệnh nhân " + patient.getName(), JOptionPane.OK_CANCEL_OPTION)) {
+            case JOptionPane.OK_OPTION:
+                diagnosis = ta.getText();
+                break;
+        }
         if (diagnosis != null && !diagnosis.isEmpty()) {
-            patientNow.setDoctorsDiagnosis(diagnosis);
-            diagnosedPatients.add(patientNow);
+            patient.setDoctorsDiagnosis(diagnosis);
+            diagnosedPatients.add(patient);
             patientsWaiting.poll();
             deleteFirstRowInCSV("khoanoi.csv");
-            String[] data = {patientNow.getID(), patientNow.getName(), patientNow.getPhone(), patientNow.getAge(),
-                    patientNow.getGender(), patientNow.getAddress(), patientNow.getDoctorsDiagnosis(), patientNow.getMedicine()};
+            String[] data = {patient.getID(), patient.getName(), patient.getPhone(), patient.getAge(),
+                    patient.getGender(), patient.getAddress(), patient.getDoctorsDiagnosis(), patient.getMedicine()};
             writeToCSV(data, "diagnosed.csv");
             JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -341,13 +348,22 @@ public class DoctorInterface extends JFrame {
 
         // Người dùng đã chọn một bệnh nhân đã khám, tiếp tục nhập đơn thuốc
         String patientName = String.valueOf(patientsBox.getSelectedItem());
-        String prescription = JOptionPane.showInputDialog(this, "Nhập đơn thuốc cho " + patientName + ":");
+        String prescription = "";
+        JTextArea ta = new JTextArea(20, 20);
+        switch (JOptionPane.showConfirmDialog(null, new JScrollPane(ta),
+                "Nhập đơn thuốc cho bệnh nhân " + patientName, JOptionPane.OK_CANCEL_OPTION)) {
+            case JOptionPane.OK_OPTION:
+                prescription = ta.getText();
+                break;
+        }
+        
         if (prescription != null && !prescription.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Đã nhập đơn thuốc cho " + patientName + ": " + prescription, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             // Lưu thông tin đơn thuốc vào cơ sở dữ liệu hoặc xử lý theo ý bạn
+            String finalPrescription = prescription;
             diagnosedPatients.forEach(patient -> {
                 if (patient.getName().equals(patientName)) {
-                    patient.setMedicine(prescription);
+                    patient.setMedicine(finalPrescription);
                 }
             });
         } else {
@@ -370,6 +386,34 @@ public class DoctorInterface extends JFrame {
         if (selectedDepartment != null && !selectedDepartment.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân đến khoa " + selectedDepartment,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            String[] patientData = {patient.getID(), patient.getName(), patient.getPhone(), patient.getAge(),
+                    patient.getGender(), patient.getAddress(), patient.getDoctorsDiagnosis()};
+            switch (selectedDepartment) {
+                case "Khoa Nội":
+                    writeToCSV(patientData, "khoanoi.csv");
+                    break;
+                case "Khoa Ngoại":
+                    writeToCSV(patientData, "khoangoai.csv");
+                    break;
+                case "Khoa Phụ sản":
+                    writeToCSV(patientData, "khoaphusan.csv");
+                    break;
+                case "Khoa Tai-Mũi-Họng":
+                    writeToCSV(patientData, "khoataimuihong.csv");
+                    break;
+                case "Khoa Hồi sức tích cực":
+                    writeToCSV(patientData, "khoahoisuctichcuc.csv");
+                    break;
+                case "Khoa Răng-Hàm-Mặt":
+                    writeToCSV(patientData, "khoaranghammat.csv");
+                    break;
+                case "Khoa Ung bướu":
+                    writeToCSV(patientData, "khoaungbuou.csv");
+                    break;
+                case "Khoa Xương khớp":
+                    writeToCSV(patientData, "khoaxuongkhop.csv");
+                    break;
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Chưa chọn khoa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }

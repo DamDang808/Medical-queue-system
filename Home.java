@@ -91,12 +91,12 @@ public class Home extends javax.swing.JFrame {
         new DoctorInterface().setVisible(true);
     }
 
-    private void addPatientButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addPatientButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         new AddPatientRecord(allDoctors).setVisible(true);
     }
 
-    private void exitButtonActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void exitButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         int a = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thoát?", "Select", JOptionPane.YES_NO_OPTION);
         if (a == 0) {
