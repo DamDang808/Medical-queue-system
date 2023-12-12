@@ -52,6 +52,7 @@ public class DoctorInterface extends JFrame {
     private JButton jButton4;
     private JButton jButton5;
     private JButton jButton6;
+    private JButton newPatientButton;
     private JPanel jPanel1;
     private JPanel jPanel2;
     private JPanel jPanel3;
@@ -87,6 +88,7 @@ public class DoctorInterface extends JFrame {
         jButton4 = new JButton();
         jButton5 = new JButton();
         jButton6 = new JButton();
+        newPatientButton = new JButton();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -127,51 +129,53 @@ public class DoctorInterface extends JFrame {
 
         jButton1.setIcon(changeImageSize("Interface-image/icons8-test-results-100.png"));
         jButton1.setText("Danh sách bệnh nhân đang chờ khám");
-
+        jButton1.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
         jButton2.setIcon(changeImageSize("Interface-image/img1.icons8.png"));
         jButton2.setText("Chấn đoán cho bệnh nhân đã khám xong");
-
+        jButton2.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         jButton2.addItemListener(this::jButton2ItemStateChanged);
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jButton3.setIcon(changeImageSize("Interface-image/icons8-prescription-64.png"));
         jButton3.setText("Kê đơn thuốc cho bệnh nhân");
-
+        jButton3.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
         jButton4.setIcon(changeImageSize("Interface-image/OIP.jpg"));
         jButton4.setText("Chuyển bệnh nhân đi xét nghiệm hoặc chuyển qua chuyên khoa khác");
-
         jButton4.addActionListener(this::jButton4ActionPerformed);
 
         jButton5.setIcon(changeImageSize("Interface-image/icons8-todo-list-48.png"));
         jButton5.setText("Danh sách bệnh nhân đã khám xong");
-
+        jButton5.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         jButton5.addActionListener(this::jButton5ActionPerformed);
 
         jButton6.setIcon(changeImageSize("Interface-image/icons8-exit-100.png"));
         jButton6.setText("Thoát");
+        jButton6.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         jButton6.addActionListener(this::jButton6ActionPerformed);
+
+        newPatientButton.setText("Gọi bệnh nhân mới");
+        newPatientButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
+        newPatientButton.addActionListener(this::newPatientButtonActionPerformed);
 
         GroupLayout doctorLayout = new GroupLayout(doctor);
         doctor.setLayout(doctorLayout);
-        doctorLayout.setHorizontalGroup(
-                doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(doctorLayout.createSequentialGroup()
-                                .addGroup(doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addGroup(doctorLayout.createSequentialGroup()
-                                                .addGap(6, 6, 6)
-                                                .addGroup(doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jButton3, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jButton4, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jButton5, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jButton6)))
-                                .addGap(475, 475, 475)
-        )));
+        doctorLayout.setHorizontalGroup(doctorLayout.createSequentialGroup()
+                .addGroup(doctorLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton2, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton3, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton4, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton5, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton6)))
+                .addGap(200, 200, 200)
+                .addComponent(newPatientButton, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+        );
         doctorLayout.setVerticalGroup(
                 doctorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(doctorLayout.createSequentialGroup()
@@ -188,6 +192,7 @@ public class DoctorInterface extends JFrame {
                                 .addGap(40, 40, 40)
                                 .addComponent(jButton6, 80, 80, 80)
                                 .addContainerGap())
+                        .addComponent(newPatientButton, 80, 80, 80)
         );
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -212,6 +217,16 @@ public class DoctorInterface extends JFrame {
         pack();
     }
 
+    private void newPatientButtonActionPerformed(ActionEvent actionEvent) {
+        // TODO add your handling code here:
+        patient = patientsWaiting.peek();
+        String anouncement = "";
+        if (patient != null) {
+            anouncement = "Số " + patient.getID() + " Bệnh nhân " + patient.getName() + " vào khám";
+        }
+        new TextToSpeech().speak(anouncement);
+    }
+
     private void jButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         showPatientsWaitingTable();
@@ -219,7 +234,6 @@ public class DoctorInterface extends JFrame {
 
     private void jButton2ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        patient = patientsWaiting.peek();
         if (patient == null) {
             JOptionPane.showMessageDialog(this, "Không có bệnh nhân nào đang chờ khám!",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -227,11 +241,9 @@ public class DoctorInterface extends JFrame {
         }
         String diagnosis = "";
         JTextArea ta = new JTextArea(20, 20);
-        switch (JOptionPane.showConfirmDialog(null, new JScrollPane(ta),
-                "Nhập chẩn đoán cho bệnh nhân " + patient.getName(), JOptionPane.OK_CANCEL_OPTION)) {
-            case JOptionPane.OK_OPTION:
-                diagnosis = ta.getText();
-                break;
+        if (JOptionPane.showConfirmDialog(null, new JScrollPane(ta),
+                "Nhập chẩn đoán cho bệnh nhân " + patient.getName(), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            diagnosis = ta.getText();
         }
         if (diagnosis != null && !diagnosis.isEmpty()) {
             patient.setDoctorsDiagnosis(diagnosis);
@@ -350,13 +362,11 @@ public class DoctorInterface extends JFrame {
         String patientName = String.valueOf(patientsBox.getSelectedItem());
         String prescription = "";
         JTextArea ta = new JTextArea(20, 20);
-        switch (JOptionPane.showConfirmDialog(null, new JScrollPane(ta),
-                "Nhập đơn thuốc cho bệnh nhân " + patientName, JOptionPane.OK_CANCEL_OPTION)) {
-            case JOptionPane.OK_OPTION:
-                prescription = ta.getText();
-                break;
+        if (JOptionPane.showConfirmDialog(null, new JScrollPane(ta),
+                "Nhập đơn thuốc cho bệnh nhân " + patientName, JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            prescription = ta.getText();
         }
-        
+
         if (prescription != null && !prescription.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Đã nhập đơn thuốc cho " + patientName + ": " + prescription, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             // Lưu thông tin đơn thuốc vào cơ sở dữ liệu hoặc xử lý theo ý bạn
@@ -441,6 +451,7 @@ public class DoctorInterface extends JFrame {
 
         JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đã khám xong", JOptionPane.PLAIN_MESSAGE);
     }
+
     private void deleteFirstRowInCSV(String fileLocation) {
         List<String[]> allElements;
         try {
@@ -462,10 +473,11 @@ public class DoctorInterface extends JFrame {
     private ImageIcon changeImageSize(String fileLocation) {
         ImageIcon imageIcon = new ImageIcon(fileLocation); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it
-        Image newImg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newImg = image.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newImg);  // transform it back
         return imageIcon;
     }
+
     public void writeToCSV(String[] data, String fileLocation) {
         String csv = fileLocation;
         try {
@@ -481,7 +493,7 @@ public class DoctorInterface extends JFrame {
         TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
         table.setRowSorter(rowSorter);
         JTextField searchField = new JTextField(20);
-        searchField.getDocument().addDocumentListener(new DocumentListener(){
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
             public void insertUpdate(DocumentEvent e) {
