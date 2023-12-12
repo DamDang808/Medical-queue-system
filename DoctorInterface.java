@@ -234,6 +234,7 @@ public class DoctorInterface extends JFrame {
 
     private void jButton2ActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
+        patient = patientsWaiting.peek();
         if (patient == null) {
             JOptionPane.showMessageDialog(this, "Không có bệnh nhân nào đang chờ khám!",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -382,6 +383,10 @@ public class DoctorInterface extends JFrame {
     }
 
     private void transferPatientToAnotherDepartment() {
+        if (patient == null) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn bệnh nhân!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         // Ví dụ danh sách bệnh nhân đã khám
         String[] department = new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
                 "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"};
