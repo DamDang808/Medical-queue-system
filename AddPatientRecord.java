@@ -24,7 +24,10 @@ public class AddPatientRecord extends javax.swing.JFrame {
      */
     // Variables declaration
     private static List<Doctor> allDoctors;
-    private final String REGEX_FOR_NAME = "^([a-z]+)((\\s{1}[a-z]+){1,})$";
+    private final String REGEX_FOR_NAME = "^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]" +
+            "[a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]" +
+            "*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]" +
+            "[a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$";
     private int numOfPatientToday = 1;
     private JButton exitButton;
     private JButton saveButton;
@@ -82,7 +85,6 @@ public class AddPatientRecord extends javax.swing.JFrame {
         saveButton = new JButton();
         exitButton = new JButton();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         setLocation(new Point(250, 150));
         setPreferredSize(new Dimension(1000, 600));

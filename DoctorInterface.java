@@ -213,14 +213,13 @@ public class DoctorInterface extends JFrame {
         );
 
         doctor.getAccessibleContext().setAccessibleDescription("");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
     }
 
     private void newPatientButtonActionPerformed(ActionEvent actionEvent) {
         // TODO add your handling code here:
         patient = patientsWaiting.peek();
-        String anouncement = "";
+        String anouncement;
         if (patient != null) {
             anouncement = "Số " + patient.getID() + " Bệnh nhân " + patient.getName() + " vào khám";
         } else {
@@ -303,10 +302,8 @@ public class DoctorInterface extends JFrame {
 
         try {
             Reader reader = Files.newBufferedReader(Paths.get("khoanoi.csv"));
-
             // create csv reader
             CSVReader csvReader = new CSVReader(reader);
-
             // read all records at once
             List<String[]> records = csvReader.readAll();
             // Get today's date
