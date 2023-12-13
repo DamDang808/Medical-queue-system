@@ -224,6 +224,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
 
             // Update UI
             numOfPatientToday++;
+            idTextField.setText(numOfPatientToday + "");
             nameTextField.setText("");
             phoneNumberTextField.setText("");
             ageTextField.setText("");

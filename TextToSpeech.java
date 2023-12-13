@@ -46,6 +46,11 @@ public class TextToSpeech {
             e.printStackTrace();
         }
         try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
             FileInputStream fis = new FileInputStream("output.mp3");
             Player playMP3 = new Player(fis);
             playMP3.play();

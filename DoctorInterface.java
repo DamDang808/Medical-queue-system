@@ -223,6 +223,8 @@ public class DoctorInterface extends JFrame {
         String anouncement = "";
         if (patient != null) {
             anouncement = "Số " + patient.getID() + " Bệnh nhân " + patient.getName() + " vào khám";
+        } else {
+            anouncement = "Không có bệnh nhân nào đang chờ khám";
         }
         new TextToSpeech().speak(anouncement);
     }
