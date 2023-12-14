@@ -63,7 +63,7 @@ public class AddPatientRecord extends JFrame {
         FlatMacLightLaf.setup();
         setTitle("Thêm bệnh nhân");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(new Dimension(1200, 700));
+        setSize(new Dimension(1200, 800));
         setLocationRelativeTo(null);
         initComponents();
     }
@@ -85,7 +85,7 @@ public class AddPatientRecord extends JFrame {
 //        toDepartmentLabel = new JLabel();
 //        logoLabel = new JLabel();
 
-        idTextField = new JTextField();
+        idTextField = new JTextField(numOfPatientToday + "");
         txtFirstName = new JTextField();
         txtLastName = new JTextField();
         txtPhoneNumber = new JTextField();
@@ -128,10 +128,13 @@ public class AddPatientRecord extends JFrame {
 
 
         panel.add(lbTitle);
-        panel.add(new JLabel("Full Name"), "gapy 10");
+
+        panel.add(new JLabel("ID"), "gapy 8");
+        panel.add(idTextField);
+        panel.add(new JLabel("Họ và tên"), "gapy 8");
         panel.add(txtFirstName, "split 2");
         panel.add(txtLastName);
-        panel.add(new JLabel("Gender"), "gapy 8");
+        panel.add(new JLabel("Giới tính"), "gapy 8");
         panel.add(createGenderPanel());
         panel.add(new JSeparator(), "gapy 5 5");
         panel.add(new JLabel("Số điện thoại"), "gapy 8");
@@ -149,6 +152,13 @@ public class AddPatientRecord extends JFrame {
         add(panel);
     }
 
+    private String getGender() {
+        if (jrMale.isSelected()) {
+            return "Nam";
+        } else {
+            return "Nữ";
+        }
+    }
     private Component createGenderPanel() {
         JPanel panel = new JPanel(new MigLayout("insets 0"));
         panel.putClientProperty(FlatClientProperties.STYLE, "background:null");
@@ -164,9 +174,11 @@ public class AddPatientRecord extends JFrame {
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
+
+
             int id = Integer.parseInt(idTextField.getText());
             int age = Integer.parseInt(txtAge.getText());
+
             if (age <= 0) {
                 JOptionPane.showMessageDialog(this, "Tuổi phải là số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -190,8 +202,12 @@ public class AddPatientRecord extends JFrame {
                 JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if (phone.length() != 10) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại phải có 10 chữ số.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-            String gender = String.valueOf(genderBox.getSelectedItem());
+            String gender = getGender();
             String department = String.valueOf(departmentBox.getSelectedItem());
 //            Doctor selectedDoctor = findDoctorByDepartment(department);
 //            if (selectedDoctor != null) {
@@ -208,22 +224,22 @@ public class AddPatientRecord extends JFrame {
                     writeToCSV(patient, "csv/khoangoai.csv");
                     break;
                 case "Khoa Phụ sản":
-                    writeToCSV(patient, "khoaphusan.csv");
+                    writeToCSV(patient, "csv/khoaphusan.csv");
                     break;
                 case "Khoa Tai-Mũi-Họng":
-                    writeToCSV(patient, "khoataimuihong.csv");
+                    writeToCSV(patient, "csv/khoataimuihong.csv");
                     break;
                 case "Khoa Hồi sức tích cực":
-                    writeToCSV(patient, "khoahoisuctichcuc.csv");
+                    writeToCSV(patient, "csv/khoahoisuctichcuc.csv");
                     break;
                 case "Khoa Răng-Hàm-Mặt":
                     writeToCSV(patient, "csv/khoaranghammat.csv");
                     break;
                 case "Khoa Ung bướu":
-                    writeToCSV(patient, "khoaungbuou.csv");
+                    writeToCSV(patient, "csv/khoaungbuou.csv");
                     break;
                 case "Khoa Xương khớp":
-                    writeToCSV(patient, "khoaxuongkhop.csv");
+                    writeToCSV(patient, "csv/khoaxuongkhop.csv");
                     break;
             }
             JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
@@ -233,13 +249,12 @@ public class AddPatientRecord extends JFrame {
             idTextField.setText(numOfPatientToday + "");
             txtFirstName.setText("");
             txtLastName.setText("");
+            jrMale.setSelected(true);
             txtPhoneNumber.setText("");
             txtAge.setText("");
             txtAddress.setText("");
             txtHistory.setText("");
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
+
     }
 
 //    private Doctor findDoctorByDepartment(String department) {
