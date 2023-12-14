@@ -52,34 +52,34 @@ public class Home extends javax.swing.JFrame {
         setPreferredSize(new Dimension(1000, 600));
         getContentPane().setLayout(new AbsoluteLayout());
 
-        addPatientButton.setBackground(new Color(0, 255, 0));
         addPatientButton.setIcon(new ImageIcon("Interface-image/Patient.jpg"));
         addPatientButton.setText("Thêm bệnh nhân");
+        addPatientButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         addPatientButton.setHorizontalTextPosition(SwingConstants.RIGHT);
-        addPatientButton.setPreferredSize(new Dimension(200, 80));
+//        addPatientButton.setPreferredSize(new Dimension(300, 80));
         addPatientButton.addActionListener(this::addPatientButtonActionPerformed);
         getContentPane().add(addPatientButton, new AbsoluteConstraints(30, 140, 196, -1));
 
-        exitButton.setBackground(new Color(0, 255, 0));
-        exitButton.setIcon(new ImageIcon("Interface-image/logout.jpg"));
-        exitButton.setText("Thoát");
-        exitButton.setHorizontalAlignment(SwingConstants.LEFT);
-        exitButton.setPreferredSize(new Dimension(200, 80));
-        exitButton.addActionListener(this::exitButtonActionPerformed);
-        getContentPane().add(exitButton, new AbsoluteConstraints(30, 360, -1, -1));
-        getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
-
-        doctorButton.setBackground(new Color(0, 255, 0));
         doctorButton.setIcon(changeSizeImage("Interface-image/doctor.png")); // NOI18N
         doctorButton.setText("Bác sĩ");
+        doctorButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         doctorButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         doctorButton.setHorizontalAlignment(SwingConstants.LEFT);
-        doctorButton.setPreferredSize(new Dimension(200, 80));
+//        doctorButton.setPreferredSize(new Dimension(300, 80));
         doctorButton.addActionListener(this::doctorButtonActionPerformed);
         getContentPane().add(doctorButton, new AbsoluteConstraints(30, 250, 196, -1));
 
+        exitButton.setIcon(new ImageIcon("Interface-image/logout.jpg"));
+        exitButton.setText("Thoát");
+        exitButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
+        exitButton.setHorizontalAlignment(SwingConstants.LEFT);
+        exitButton.setPreferredSize(new Dimension(300, 80));
+        exitButton.addActionListener(this::exitButtonActionPerformed);
+        getContentPane().add(exitButton, new AbsoluteConstraints(30, 360, -1, -1));
+//        getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
 
-        jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/hospital.jpg"))));
+
+        jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/home-banner.png"))));
         jLabel2.setText("background");
         jLabel2.setPreferredSize(new Dimension(1000, 600));
         getContentPane().add(jLabel2, new AbsoluteConstraints(0, 0, -1, -1));

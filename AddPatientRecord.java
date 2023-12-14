@@ -152,7 +152,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
                 "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"}));
         getContentPane().add(departmentBox, new AbsoluteConstraints(400, 360, 381, 32));
 
-        logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image\\logo.jpg")))); // NOI18N
+        logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image\\home-banner.png")))); // NOI18N
         logoLabel.setText("jLabel10");
         getContentPane().add(logoLabel, new AbsoluteConstraints(0, 0, -1, -1));
 
@@ -198,10 +198,10 @@ public class AddPatientRecord extends javax.swing.JFrame {
             String[] patient = new String[]{id + "", name, phone, age + "", gender, address, history};
             switch (department) {
                 case "Khoa Nội":
-                    writeToCSV(patient, "khoanoi.csv");
+                    writeToCSV(patient, "csv/khoanoi.csv");
                     break;
                 case "Khoa Ngoại":
-                    writeToCSV(patient, "khoangoai.csv");
+                    writeToCSV(patient, "csv/khoangoai.csv");
                     break;
                 case "Khoa Phụ sản":
                     writeToCSV(patient, "khoaphusan.csv");
@@ -213,7 +213,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
                     writeToCSV(patient, "khoahoisuctichcuc.csv");
                     break;
                 case "Khoa Răng-Hàm-Mặt":
-                    writeToCSV(patient, "khoaranghammat.csv");
+                    writeToCSV(patient, "csv/khoaranghammat.csv");
                     break;
                 case "Khoa Ung bướu":
                     writeToCSV(patient, "khoaungbuou.csv");

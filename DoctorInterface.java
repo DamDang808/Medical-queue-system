@@ -144,7 +144,8 @@ public class DoctorInterface extends JFrame {
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
         jButton4.setIcon(changeImageSize("Interface-image/OIP.jpg"));
-        jButton4.setText("Chuyển bệnh nhân đi xét nghiệm hoặc chuyển qua chuyên khoa khác");
+        jButton4.setText("Chuyển bệnh nhân sang khoa khác");
+        jButton4.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         jButton4.addActionListener(this::jButton4ActionPerformed);
 
         jButton5.setIcon(changeImageSize("Interface-image/icons8-todo-list-48.png"));
@@ -251,10 +252,10 @@ public class DoctorInterface extends JFrame {
             patient.setDoctorsDiagnosis(diagnosis);
             diagnosedPatients.add(patient);
             patientsWaiting.poll();
-            deleteFirstRowInCSV("khoanoi.csv");
+            deleteFirstRowInCSV("csv/khoanoi.csv");
             String[] data = {patient.getID(), patient.getName(), patient.getPhone(), patient.getAge(),
                     patient.getGender(), patient.getAddress(), patient.getDoctorsDiagnosis(), patient.getMedicine()};
-            writeToCSV(data, "diagnosed.csv");
+            writeToCSV(data, "csv/diagnosed.csv");
             JOptionPane.showMessageDialog(this, "Chẩn đoán của bệnh nhân: " + diagnosis,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -301,7 +302,7 @@ public class DoctorInterface extends JFrame {
         table.setModel(model);
 
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("khoanoi.csv"));
+            Reader reader = Files.newBufferedReader(Paths.get("csv/khoanoi.csv"));
             // create csv reader
             CSVReader csvReader = new CSVReader(reader);
             // read all records at once
@@ -404,10 +405,10 @@ public class DoctorInterface extends JFrame {
                     patient.getGender(), patient.getAddress(), patient.getDoctorsDiagnosis()};
             switch (selectedDepartment) {
                 case "Khoa Nội":
-                    writeToCSV(patientData, "khoanoi.csv");
+                    writeToCSV(patientData, "csv/khoanoi.csv");
                     break;
                 case "Khoa Ngoại":
-                    writeToCSV(patientData, "khoangoai.csv");
+                    writeToCSV(patientData, "csv/khoangoai.csv");
                     break;
                 case "Khoa Phụ sản":
                     writeToCSV(patientData, "khoaphusan.csv");
@@ -419,7 +420,7 @@ public class DoctorInterface extends JFrame {
                     writeToCSV(patientData, "khoahoisuctichcuc.csv");
                     break;
                 case "Khoa Răng-Hàm-Mặt":
-                    writeToCSV(patientData, "khoaranghammat.csv");
+                    writeToCSV(patientData, "csv/khoaranghammat.csv");
                     break;
                 case "Khoa Ung bướu":
                     writeToCSV(patientData, "khoaungbuou.csv");
