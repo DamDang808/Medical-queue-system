@@ -153,6 +153,7 @@ public class AddPatientRecord extends javax.swing.JFrame {
         getContentPane().add(departmentBox, new AbsoluteConstraints(400, 360, 381, 32));
 
         logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image\\home-banner.png")))); // NOI18N
+
         logoLabel.setText("jLabel10");
         getContentPane().add(logoLabel, new AbsoluteConstraints(0, 0, -1, -1));
 

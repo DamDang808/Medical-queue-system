@@ -65,7 +65,7 @@ public class Home extends javax.swing.JFrame {
         doctorButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         doctorButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         doctorButton.setHorizontalAlignment(SwingConstants.LEFT);
-//        doctorButton.setPreferredSize(new Dimension(300, 80));
+        doctorButton.setPreferredSize(new Dimension(900, 80));
         doctorButton.addActionListener(this::doctorButtonActionPerformed);
         getContentPane().add(doctorButton, new AbsoluteConstraints(30, 250, 196, -1));
 
@@ -79,7 +79,8 @@ public class Home extends javax.swing.JFrame {
 //        getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
 
 
-        jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/home-banner.png"))));
+        jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/hospital-background2.jpg"))));
+
         jLabel2.setText("background");
         jLabel2.setPreferredSize(new Dimension(1000, 600));
         getContentPane().add(jLabel2, new AbsoluteConstraints(0, 0, -1, -1));
@@ -108,7 +109,7 @@ public class Home extends javax.swing.JFrame {
     private ImageIcon changeSizeImage(String fileLocation) {
         ImageIcon imageIcon = new ImageIcon(fileLocation); // load the image to a imageIcon
         Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newimg);  // transform it back
         return imageIcon;
     }
