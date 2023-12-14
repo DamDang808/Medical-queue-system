@@ -3,9 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import net.miginfocom.swing.MigLayout;
 import com.opencsv.CSVWriter;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +20,7 @@ import java.util.Objects;
 /**
  * @author adm
  */
-public class AddPatientRecord extends javax.swing.JFrame {
+public class AddPatientRecord extends JFrame {
 
     /**
      * Creates new form addPatient
@@ -29,29 +32,39 @@ public class AddPatientRecord extends javax.swing.JFrame {
             "*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]" +
             "[a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$";
     private int numOfPatientToday = 1;
-    private JButton exitButton;
+
     private JButton saveButton;
     private JComboBox<String> genderBox;
     private JComboBox<String> departmentBox;
-    private JLabel idLabel;
-    private JLabel logoLabel;
-    private JLabel nameLabel;
-    private JLabel phoneNumberLabel;
-    private JLabel addressLabel;
-    private JLabel ageLabel;
-    private JLabel genderLabel;
-    private JLabel historyLabel;
-    private JLabel toDepartmentLabel;
+    private JRadioButton jrMale;
+    private JRadioButton jrFemale;
+    private ButtonGroup groupGender;
+//    private JLabel idLabel;
+//    private JLabel logoLabel;
+//    private JLabel nameLabel;
+//    private JLabel phoneNumberLabel;
+//    private JLabel addressLabel;
+//    private JLabel ageLabel;
+//    private JLabel genderLabel;
+//    private JLabel historyLabel;
+//    private JLabel toDepartmentLabel;
     private JTextField idTextField;
-    private JTextField nameTextField;
-    private JTextField phoneNumberTextField;
-    private JTextField ageTextField;
-    private JTextField addressTextField;
-    private JTextField historyTextField;
+    private JTextField txtFirstName;
+    private JTextField txtLastName;
+    private JTextField txtPhoneNumber;
+    private JTextField txtAge;
+    private JTextField txtAddress;
+    private JTextField txtHistory;
 
-    public AddPatientRecord(List<Doctor> allDoctors) {
-        this.allDoctors = allDoctors;
-        this.setTitle("Thêm bệnh nhân");
+    public AddPatientRecord() {
+        FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("raven.themes");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        FlatMacLightLaf.setup();
+        setTitle("Thêm bệnh nhân");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(new Dimension(1200, 700));
+        setLocationRelativeTo(null);
         initComponents();
     }
 
@@ -62,122 +75,112 @@ public class AddPatientRecord extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        idLabel = new JLabel();
-        nameLabel = new JLabel();
-        phoneNumberLabel = new JLabel();
-        addressLabel = new JLabel();
-        ageLabel = new JLabel();
-        genderLabel = new JLabel();
-        historyLabel = new JLabel();
-        toDepartmentLabel = new JLabel();
-        logoLabel = new JLabel();
+//        idLabel = new JLabel();
+//        nameLabel = new JLabel();
+//        phoneNumberLabel = new JLabel();
+//        addressLabel = new JLabel();
+//        ageLabel = new JLabel();
+//        genderLabel = new JLabel();
+//        historyLabel = new JLabel();
+//        toDepartmentLabel = new JLabel();
+//        logoLabel = new JLabel();
 
         idTextField = new JTextField();
-        nameTextField = new JTextField();
-        phoneNumberTextField = new JTextField();
-        ageTextField = new JTextField();
-        addressTextField = new JTextField();
-        historyTextField = new JTextField();
+        txtFirstName = new JTextField();
+        txtLastName = new JTextField();
+        txtPhoneNumber = new JTextField();
+        txtAge = new JTextField();
+        txtAddress = new JTextField();
+        txtHistory = new JTextField();
 
         genderBox = new JComboBox<>();
         departmentBox = new JComboBox<>();
 
-        saveButton = new JButton();
-        exitButton = new JButton();
+        saveButton = new JButton("Lưu");
 
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        setLocation(new Point(250, 150));
-        setPreferredSize(new Dimension(1000, 600));
-        getContentPane().setLayout(new AbsoluteLayout());
+        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
 
-        idLabel.setBackground(new Color(0, 255, 0));
-        idLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
-        idLabel.setText("ID:");
-        getContentPane().add(idLabel, new AbsoluteConstraints(190, 60, 74, 24));
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "[fill,360]"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
+                "[light]background:darken(@background,3%);" +
+                "[dark]background:lighten(@background,3%)");
 
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
-        nameLabel.setText("Họ và tên: ");
-        getContentPane().add(nameLabel, new AbsoluteConstraints(190, 100, -1, 25));
-
-        phoneNumberLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
-        phoneNumberLabel.setText("Số điện thoại: ");
-        getContentPane().add(phoneNumberLabel, new AbsoluteConstraints(190, 140, 113, 30));
-
-        addressLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
-        addressLabel.setText("Địa chỉ: ");
-        getContentPane().add(addressLabel, new AbsoluteConstraints(190, 280, 113, 24));
-
-        ageLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
-        ageLabel.setText("Tuổi:");
-        getContentPane().add(ageLabel, new AbsoluteConstraints(190, 190, 113, 26));
-
-        genderLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
-        genderLabel.setText("Giới tính:");
-        getContentPane().add(genderLabel, new AbsoluteConstraints(190, 230, 113, 25));
-
-        idTextField.setText(numOfPatientToday + "");
-        idTextField.setEditable(false);
-        idTextField.setPreferredSize(new Dimension(200, 24));
-
-        getContentPane().add(idTextField, new AbsoluteConstraints(400, 60, 381, 24));
-        getContentPane().add(nameTextField, new AbsoluteConstraints(400, 100, 381, 25));
-        getContentPane().add(phoneNumberTextField, new AbsoluteConstraints(400, 140, 381, 30));
-        getContentPane().add(ageTextField, new AbsoluteConstraints(400, 190, 381, 26));
-        getContentPane().add(addressTextField, new AbsoluteConstraints(400, 280, 381, 24));
-
-        genderBox.setModel(new DefaultComboBoxModel<>(new String[]{"Male", "Female"}));
-        getContentPane().add(genderBox, new AbsoluteConstraints(400, 230, 381, 25));
-
-        historyLabel.setFont(new Font("Arial", Font.BOLD, 16)); // NOI18N
-        historyLabel.setText("Tiền sử bệnh án:");
-
-        getContentPane().add(historyLabel, new AbsoluteConstraints(190, 320, -1, 26));
-        getContentPane().add(historyTextField, new AbsoluteConstraints(400, 320, 381, 26));
-
-        saveButton.setText("Lưu");
-        saveButton.addActionListener(this::saveButtonActionPerformed);
-        saveButton.setPreferredSize(new Dimension(80, 50));
-        getContentPane().add(saveButton, new AbsoluteConstraints(850, 490, -1, -1));
-
-        exitButton.setText("Thoát");
-        exitButton.addActionListener(this::exitButtonActionPerformed);
-        exitButton.setPreferredSize(new Dimension(80, 50));
-        getContentPane().add(exitButton, new AbsoluteConstraints(80, 490, -1, -1));
-
-        toDepartmentLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        toDepartmentLabel.setText("Chuyển đến:");
-        getContentPane().add(toDepartmentLabel, new AbsoluteConstraints(190, 360, 113, 32));
-
+        txtFirstName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Họ");
+        txtLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tên");
+        txtPhoneNumber.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Số điện thoại");
+        txtAddress.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Địa chỉ");
+        txtAge.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tuổi");
+        txtHistory.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tiền sử bệnh án");
         departmentBox.setModel(new DefaultComboBoxModel<>(new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
                 "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"}));
-        getContentPane().add(departmentBox, new AbsoluteConstraints(400, 360, 381, 32));
 
-        logoLabel.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image\\home-banner.png")))); // NOI18N
 
-        logoLabel.setText("jLabel10");
-        getContentPane().add(logoLabel, new AbsoluteConstraints(0, 0, -1, -1));
+        saveButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,10%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
+        saveButton.addActionListener(this::saveButtonActionPerformed);
 
-        pack();
+        JLabel lbTitle = new JLabel("Thông tin bệnh nhân");
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, "font:bold +10");
+
+
+        panel.add(lbTitle);
+        panel.add(new JLabel("Full Name"), "gapy 10");
+        panel.add(txtFirstName, "split 2");
+        panel.add(txtLastName);
+        panel.add(new JLabel("Gender"), "gapy 8");
+        panel.add(createGenderPanel());
+        panel.add(new JSeparator(), "gapy 5 5");
+        panel.add(new JLabel("Số điện thoại"), "gapy 8");
+        panel.add(txtPhoneNumber);
+        panel.add(new JLabel("Tuổi"), "gapy 8");
+        panel.add(txtAge);
+        panel.add(new JLabel("Địa chỉ"), "gapy 8");
+        panel.add(txtAddress);
+        panel.add(new JLabel("Tiền sử bệnh án"), "gapy 8");
+        panel.add(txtHistory);
+        panel.add(new JLabel("Khoa"), "gapy 8");
+        panel.add(departmentBox);
+        panel.add(saveButton, "gapy 20");
+
+        add(panel);
+    }
+
+    private Component createGenderPanel() {
+        JPanel panel = new JPanel(new MigLayout("insets 0"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "background:null");
+        jrMale = new JRadioButton("Male");
+        jrFemale = new JRadioButton("Female");
+        groupGender = new ButtonGroup();
+        groupGender.add(jrMale);
+        groupGender.add(jrFemale);
+        jrMale.setSelected(true);
+        panel.add(jrMale);
+        panel.add(jrFemale);
+        return panel;
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             int id = Integer.parseInt(idTextField.getText());
-            int age = Integer.parseInt(ageTextField.getText());
+            int age = Integer.parseInt(txtAge.getText());
             if (age <= 0) {
                 JOptionPane.showMessageDialog(this, "Tuổi phải là số nguyên dương.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            String name = nameTextField.getText();
+            String name = txtFirstName.getText() + " " + txtLastName.getText();
             if (!name.matches(REGEX_FOR_NAME)) {
                 JOptionPane.showMessageDialog(this, "Tên phải là chuỗi hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            String address = addressTextField.getText();
-            String phone = phoneNumberTextField.getText();
-            String history = historyTextField.getText();
+            String address = txtAddress.getText();
+            String phone = txtPhoneNumber.getText();
+            String history = txtHistory.getText();
 
             if (address.isEmpty() || phone.isEmpty() || history.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin của bệnh nhân.", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -228,13 +231,12 @@ public class AddPatientRecord extends javax.swing.JFrame {
             // Update UI
             numOfPatientToday++;
             idTextField.setText(numOfPatientToday + "");
-            nameTextField.setText("");
-            phoneNumberTextField.setText("");
-            ageTextField.setText("");
-            addressTextField.setText("");
-            historyTextField.setText("");
-            genderBox.setSelectedIndex(0);
-            departmentBox.setSelectedIndex(0);
+            txtFirstName.setText("");
+            txtLastName.setText("");
+            txtPhoneNumber.setText("");
+            txtAge.setText("");
+            txtAddress.setText("");
+            txtHistory.setText("");
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -248,11 +250,6 @@ public class AddPatientRecord extends javax.swing.JFrame {
 //        }
 //        return null;
 //    }
-
-    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        setVisible(false);
-    }
-
     public void writeToCSV(String[] data, String fileLocation) {
         String csv = fileLocation;
         try {
@@ -262,30 +259,5 @@ public class AddPatientRecord extends javax.swing.JFrame {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                 UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddPatientRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AddPatientRecord(allDoctors).setVisible(true));
     }
 }

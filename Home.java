@@ -55,19 +55,19 @@ public class Home extends javax.swing.JFrame {
         addPatientButton.setIcon(new ImageIcon("Interface-image/Patient.jpg"));
         addPatientButton.setText("Thêm bệnh nhân");
         addPatientButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
-        addPatientButton.setHorizontalTextPosition(SwingConstants.RIGHT);
-//        addPatientButton.setPreferredSize(new Dimension(300, 80));
+        addPatientButton.setHorizontalAlignment(SwingConstants.LEFT);
+        addPatientButton.setPreferredSize(new Dimension(300, 80));
         addPatientButton.addActionListener(this::addPatientButtonActionPerformed);
-        getContentPane().add(addPatientButton, new AbsoluteConstraints(30, 140, 196, -1));
+        getContentPane().add(addPatientButton, new AbsoluteConstraints(30, 140, 300, -1));
 
         doctorButton.setIcon(changeSizeImage("Interface-image/doctor.png")); // NOI18N
         doctorButton.setText("Bác sĩ");
         doctorButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         doctorButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         doctorButton.setHorizontalAlignment(SwingConstants.LEFT);
-        doctorButton.setPreferredSize(new Dimension(900, 80));
+        doctorButton.setPreferredSize(new Dimension(300, 80));
         doctorButton.addActionListener(this::doctorButtonActionPerformed);
-        getContentPane().add(doctorButton, new AbsoluteConstraints(30, 250, 196, -1));
+        getContentPane().add(doctorButton, new AbsoluteConstraints(30, 250, 300, -1));
 
         exitButton.setIcon(new ImageIcon("Interface-image/logout.jpg"));
         exitButton.setText("Thoát");
@@ -75,8 +75,8 @@ public class Home extends javax.swing.JFrame {
         exitButton.setHorizontalAlignment(SwingConstants.LEFT);
         exitButton.setPreferredSize(new Dimension(300, 80));
         exitButton.addActionListener(this::exitButtonActionPerformed);
-        getContentPane().add(exitButton, new AbsoluteConstraints(30, 360, -1, -1));
-//        getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
+        getContentPane().add(exitButton, new AbsoluteConstraints(30, 360, 300, -1));
+        getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
 
 
         jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/hospital-background2.jpg"))));
@@ -94,7 +94,7 @@ public class Home extends javax.swing.JFrame {
 
     private void addPatientButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        new AddPatientRecord(allDoctors).setVisible(true);
+        new AddPatientRecord().setVisible(true);
     }
 
     private void exitButtonActionPerformed(ActionEvent evt) {

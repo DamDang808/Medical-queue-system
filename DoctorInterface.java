@@ -370,7 +370,7 @@ public class DoctorInterface extends JFrame {
 
         if (prescription != null && !prescription.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Đã nhập đơn thuốc cho " + patientName + ": " + prescription, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            // Lưu thông tin đơn thuốc vào cơ sở dữ liệu hoặc xử lý theo ý bạn
+            // Lưu thông tin đơn thuốc vào cơ sở dữ liệu
             String finalPrescription = prescription;
             diagnosedPatients.forEach(patient -> {
                 if (patient.getName().equals(patientName)) {
@@ -387,7 +387,7 @@ public class DoctorInterface extends JFrame {
             JOptionPane.showMessageDialog(this, "Chưa chọn bệnh nhân!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        // Ví dụ danh sách bệnh nhân đã khám
+
         String[] department = new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
                 "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"};
         String selectedDepartment = (String) JOptionPane.showInputDialog(
@@ -398,6 +398,7 @@ public class DoctorInterface extends JFrame {
                 department,
                 department[0]
         );
+
         if (selectedDepartment != null && !selectedDepartment.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân đến khoa " + selectedDepartment,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -411,22 +412,22 @@ public class DoctorInterface extends JFrame {
                     writeToCSV(patientData, "csv/khoangoai.csv");
                     break;
                 case "Khoa Phụ sản":
-                    writeToCSV(patientData, "khoaphusan.csv");
+                    writeToCSV(patientData, "csv/khoaphusan.csv");
                     break;
                 case "Khoa Tai-Mũi-Họng":
-                    writeToCSV(patientData, "khoataimuihong.csv");
+                    writeToCSV(patientData, "csv/khoataimuihong.csv");
                     break;
                 case "Khoa Hồi sức tích cực":
-                    writeToCSV(patientData, "khoahoisuctichcuc.csv");
+                    writeToCSV(patientData, "csv/khoahoisuctichcuc.csv");
                     break;
                 case "Khoa Răng-Hàm-Mặt":
                     writeToCSV(patientData, "csv/khoaranghammat.csv");
                     break;
                 case "Khoa Ung bướu":
-                    writeToCSV(patientData, "khoaungbuou.csv");
+                    writeToCSV(patientData, "csv/khoaungbuou.csv");
                     break;
                 case "Khoa Xương khớp":
-                    writeToCSV(patientData, "khoaxuongkhop.csv");
+                    writeToCSV(patientData, "csv/khoaxuongkhop.csv");
                     break;
             }
         } else {
@@ -499,7 +500,6 @@ public class DoctorInterface extends JFrame {
         table.setRowSorter(rowSorter);
         JTextField searchField = new JTextField(20);
         searchField.getDocument().addDocumentListener(new DocumentListener() {
-
             @Override
             public void insertUpdate(DocumentEvent e) {
                 String text = searchField.getText();
