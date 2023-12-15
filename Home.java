@@ -1,4 +1,9 @@
 
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import net.miginfocom.swing.MigLayout;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
@@ -29,7 +34,14 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     public Home() {
+        FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("resources.themes");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 18));
+        FlatMacLightLaf.setup();
         this.setTitle("Quản lý bệnh viện");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(new Dimension(1200, 800));
+        setLocationRelativeTo(null);
         initComponents();
     }
 
@@ -48,44 +60,49 @@ public class Home extends javax.swing.JFrame {
         jLabel2 = new JLabel();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocation(new Point(250, 150));
-        setPreferredSize(new Dimension(1000, 600));
-        getContentPane().setLayout(new AbsoluteLayout());
+        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
 
-        addPatientButton.setIcon(new ImageIcon("Interface-image/Patient.jpg"));
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "[fill,360]"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
+                "[light]background:darken(@background,3%);" +
+                "[dark]background:lighten(@background,3%)");
+
+        addPatientButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,20%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
+
+        exitButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,20%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
+        doctorButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,20%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
+
+        addPatientButton.setIcon(changeSizeImage("Interface-image/addpatient.png"));
         addPatientButton.setText("Thêm bệnh nhân");
-        addPatientButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         addPatientButton.setHorizontalAlignment(SwingConstants.LEFT);
-        addPatientButton.setPreferredSize(new Dimension(300, 80));
         addPatientButton.addActionListener(this::addPatientButtonActionPerformed);
-        getContentPane().add(addPatientButton, new AbsoluteConstraints(30, 140, 300, -1));
 
         doctorButton.setIcon(changeSizeImage("Interface-image/doctor.png")); // NOI18N
         doctorButton.setText("Bác sĩ");
-        doctorButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
-        doctorButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         doctorButton.setHorizontalAlignment(SwingConstants.LEFT);
-        doctorButton.setPreferredSize(new Dimension(300, 80));
         doctorButton.addActionListener(this::doctorButtonActionPerformed);
-        getContentPane().add(doctorButton, new AbsoluteConstraints(30, 250, 300, -1));
 
-        exitButton.setIcon(new ImageIcon("Interface-image/logout.jpg"));
+        exitButton.setIcon(changeSizeImage("Interface-image/logout.jpg"));
         exitButton.setText("Thoát");
-        exitButton.setFont(new Font("Segeo UI", Font.PLAIN, 18));
         exitButton.setHorizontalAlignment(SwingConstants.LEFT);
-        exitButton.setPreferredSize(new Dimension(300, 80));
         exitButton.addActionListener(this::exitButtonActionPerformed);
-        getContentPane().add(exitButton, new AbsoluteConstraints(30, 360, 300, -1));
-        getContentPane().add(jLabel1, new AbsoluteConstraints(540, 180, -1, -1));
 
-
-        jLabel2.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("Interface-image/hospital-background2.jpg"))));
-
-        jLabel2.setText("background");
-        jLabel2.setPreferredSize(new Dimension(1000, 600));
-        getContentPane().add(jLabel2, new AbsoluteConstraints(0, 0, -1, -1));
-
-        pack();
+        panel.add(addPatientButton, "gapy 8");
+        panel.add(doctorButton, "gapy 8");
+        panel.add(exitButton, "gapy 8");
+        add(panel);
     }
 
     private void doctorButtonActionPerformed(ActionEvent actionEvent) {
@@ -99,7 +116,7 @@ public class Home extends javax.swing.JFrame {
 
     private void exitButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        int a = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thoát?", "Select", JOptionPane.YES_NO_OPTION);
+        int a = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn thoát?", "Thoát?", JOptionPane.YES_NO_OPTION);
         if (a == 0) {
             setVisible(false);
             System.exit(0);

@@ -19,7 +19,6 @@ import java.util.List;
  * @author adm
  */
 public class AddPatientRecord extends JFrame {
-
     /**
      * Creates new form addPatient
      */
@@ -37,15 +36,6 @@ public class AddPatientRecord extends JFrame {
     private JRadioButton jrMale;
     private JRadioButton jrFemale;
     private ButtonGroup groupGender;
-//    private JLabel idLabel;
-//    private JLabel logoLabel;
-//    private JLabel nameLabel;
-//    private JLabel phoneNumberLabel;
-//    private JLabel addressLabel;
-//    private JLabel ageLabel;
-//    private JLabel genderLabel;
-//    private JLabel historyLabel;
-//    private JLabel toDepartmentLabel;
     private JTextField idTextField;
     private JTextField txtFirstName;
     private JTextField txtLastName;
@@ -56,7 +46,7 @@ public class AddPatientRecord extends JFrame {
 
     public AddPatientRecord() {
         FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("raven.themes");
+        FlatLaf.registerCustomDefaultsSource("resources.themes");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         FlatMacLightLaf.setup();
         setTitle("Thêm bệnh nhân");
