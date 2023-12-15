@@ -15,8 +15,6 @@ import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-
 /**
  * @author adm
  */
@@ -75,15 +73,6 @@ public class AddPatientRecord extends JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-//        idLabel = new JLabel();
-//        nameLabel = new JLabel();
-//        phoneNumberLabel = new JLabel();
-//        addressLabel = new JLabel();
-//        ageLabel = new JLabel();
-//        genderLabel = new JLabel();
-//        historyLabel = new JLabel();
-//        toDepartmentLabel = new JLabel();
-//        logoLabel = new JLabel();
 
         idTextField = new JTextField(numOfPatientToday + "");
         txtFirstName = new JTextField();
@@ -174,8 +163,7 @@ public class AddPatientRecord extends JFrame {
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
-
+        try {
             int id = Integer.parseInt(idTextField.getText());
             int age = Integer.parseInt(txtAge.getText());
 
@@ -255,6 +243,9 @@ public class AddPatientRecord extends JFrame {
             txtAddress.setText("");
             txtHistory.setText("");
 
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID và tuổi phải là số nguyên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 //    private Doctor findDoctorByDepartment(String department) {
