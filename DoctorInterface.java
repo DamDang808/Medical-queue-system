@@ -67,6 +67,7 @@ public class DoctorInterface extends JFrame {
     public DoctorInterface() {
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         this.setTitle("Bác sĩ");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(1200, 800));
         initComponents();
     }
@@ -224,6 +225,7 @@ public class DoctorInterface extends JFrame {
         JTable table = new JTable(0, columnNames.length);
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
         table.setAutoCreateRowSorter(true);
+
         table.setModel(model);
 
         // Thêm dữ liệu từ file csv vào bảng
@@ -261,7 +263,7 @@ public class DoctorInterface extends JFrame {
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(1200, 800));
+        scrollPane.setPreferredSize(new Dimension(800, 600));
 
         JPanel panel = new JPanel();
         panel.add(new JLabel("Tìm kiếm: "));
