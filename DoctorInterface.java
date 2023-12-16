@@ -219,7 +219,240 @@ public class DoctorInterface extends JFrame {
         }
     }
 
-    
+    private void showPatientsWaitingTable() {
+        String[] columnNames = {"Số thứ tự", "Họ tên bệnh nhân", "Số điện thoại", "Tuổi", "Giới tính", "Địa chỉ",
+                "Tình trạng bệnh", "Thuốc đang sử dụng", "Ngày khám"};
+        JTable table = new JTable(0, columnNames.length);
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
+        table.setAutoCreateRowSorter(true);
+
+        table.setModel(model);
+
+        // Thêm dữ liệu từ file csv vào bảng
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("csv/khoanoi.csv"));
+            // create csv reader
+            CSVReader csvReader = new CSVReader(reader);
+            // read all records at once
+            List<String[]> records = csvReader.readAll();
+            // Get today's date
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            boolean firstRow = true;
+            // Import data from CSV file to table
+            for (String[] data : records) {
+                if (firstRow) {
+                    firstRow = false;
+                    continue;
+                }
+                String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], "", date.format(formatter)};
+                Patient patient = new Patient(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
+                model.addRow(row);
+                patientsWaiting.add(patient);
+            }
+            reader.close();
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
+        }
+
+        // căn giữa các cột
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int x = 0; x < columnNames.length; x++) {
+            table.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(800, 600));
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Tìm kiếm: "));
+        panel.add(addSearchBar(table));
+        panel.add(scrollPane);
+
+        JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đang chờ khám", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void prescribeMedicineToPatient() {
+        if (patient == null) {
+            JOptionPane.showMessageDialog(this, "Không còn bệnh nhân nào cần kê đơn thuốc.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Người dùng đã chọn một bệnh nhân đã khám, tiếp tục nhập đơn thuốc
+        String patientName = patient.getName();
+        String prescription = "";
+        JTextArea ta = new JTextArea(20, 20);
+        if (JOptionPane.showConfirmDialog(null, new JScrollPane(ta),
+                "Nhập đơn thuốc cho bệnh nhân " + patientName, JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            prescription = ta.getText();
+        }
+
+        if (prescription != null && !prescription.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Đã nhập đơn thuốc cho " + patientName + ": " + prescription, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            // Lưu thông tin đơn thuốc vào cơ sở dữ liệu
+            patient.setMedicine(prescription);
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa nhập đơn thuốc!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void transferPatientToAnotherDepartment() {
+        if (patient == null) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn bệnh nhân!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String[] department = new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
+                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"};
+        String selectedDepartment = (String) JOptionPane.showInputDialog(
+                this, "Chọn khoa cần chuyển bệnh nhân đến:",
+                "Danh sách khoa",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                department,
+                department[0]
+        );
+
+        if (selectedDepartment != null && !selectedDepartment.isEmpty()) {
+            patient = null;
+            JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân đến " + selectedDepartment,
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            String[] patientData = {patient.getID(), patient.getName(), patient.getPhone(), patient.getAge(),
+                    patient.getGender(), patient.getAddress(), patient.getDoctorsDiagnosis()};
+            switch (selectedDepartment) {
+                case "Khoa Nội":
+                    writeToCSV(patientData, "csv/khoanoi.csv");
+                    break;
+                case "Khoa Ngoại":
+                    writeToCSV(patientData, "csv/khoangoai.csv");
+                    break;
+                case "Khoa Phụ sản":
+                    writeToCSV(patientData, "csv/khoaphusan.csv");
+                    break;
+                case "Khoa Tai-Mũi-Họng":
+                    writeToCSV(patientData, "csv/khoataimuihong.csv");
+                    break;
+                case "Khoa Hồi sức tích cực":
+                    writeToCSV(patientData, "csv/khoahoisuctichcuc.csv");
+                    break;
+                case "Khoa Răng-Hàm-Mặt":
+                    writeToCSV(patientData, "csv/khoaranghammat.csv");
+                    break;
+                case "Khoa Ung bướu":
+                    writeToCSV(patientData, "csv/khoaungbuou.csv");
+                    break;
+                case "Khoa Xương khớp":
+                    writeToCSV(patientData, "csv/khoaxuongkhop.csv");
+                    break;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn khoa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void showDiagnosedPatientsTable() {
+        String[] columnNames = {"Số thứ tự", "Họ tên", "Tuổi", "Giới tính", "Chẩn đoán", "Đơn thuốc"};
+        JTable table = new JTable(0, columnNames.length);
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
+        table.setAutoCreateRowSorter(true);
+        table.setModel(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(800, 600));
+
+        for (Patient patient : diagnosedPatients) {
+            String[] row = new String[]{patient.getID(), patient.getName(), patient.getAge(), patient.getGender(),
+                    patient.getDoctorsDiagnosis(), patient.getMedicine()};
+            model.addRow(row);
+        }
+        // căn giữa các cột
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int x = 0; x < columnNames.length; x++) {
+            table.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
+        }
+
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Tìm kiếm: "));
+        panel.add(addSearchBar(table));
+        panel.add(scrollPane);
+
+        JOptionPane.showMessageDialog(this, panel, "Danh sách bệnh nhân đã khám xong", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    private void deleteFirstRowInCSV(String fileLocation) {
+        List<String[]> allElements;
+        try {
+            CSVReader reader2 = new CSVReader(new FileReader(fileLocation));
+            allElements = reader2.readAll();
+            if (allElements.isEmpty()) {
+                return;
+            }
+            allElements.remove(1);
+            FileWriter sw = new FileWriter(fileLocation);
+            CSVWriter writer = new CSVWriter(sw);
+            writer.writeAll(allElements);
+            writer.close();
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ImageIcon changeImageSize(String fileLocation) {
+        ImageIcon imageIcon = new ImageIcon(fileLocation); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it
+        Image newImg = image.getScaledInstance(70, 70, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newImg);  // transform it back
+        return imageIcon;
+    }
+
+    public void writeToCSV(String[] data, String fileLocation) {
+        String csv = fileLocation;
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+            writer.writeNext(data);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private JTextField addSearchBar(JTable table) {
+        TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(rowSorter);
+        JTextField searchField = new JTextField(20);
+        searchField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = searchField.getText();
+
+                if (text.trim().isEmpty()) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = searchField.getText();
+
+                if (text.trim().isEmpty()) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        });
+        return searchField;
+    }
 
     public static void main(String[] args) {
         new DoctorInterface().setVisible(true);
