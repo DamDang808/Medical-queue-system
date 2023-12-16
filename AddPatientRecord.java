@@ -45,10 +45,7 @@ public class AddPatientRecord extends JFrame {
     private JTextField txtHistory;
 
     public AddPatientRecord() {
-        FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("resources.themes");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        FlatMacLightLaf.setup();
         setTitle("Thêm bệnh nhân");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(new Dimension(1200, 800));
@@ -139,7 +136,7 @@ public class AddPatientRecord extends JFrame {
         }
     }
     private Component createGenderPanel() {
-        JPanel panel = new JPanel(new MigLayout("insets 0"));
+        JPanel panel = new JPanel(new MigLayout("insets 0 10 0 10"));
         panel.putClientProperty(FlatClientProperties.STYLE, "background:null");
         jrMale = new JRadioButton("Male");
         jrFemale = new JRadioButton("Female");

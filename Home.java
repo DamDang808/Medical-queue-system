@@ -4,14 +4,12 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import net.miginfocom.swing.MigLayout;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
-import java.util.Objects;
+
 
 /**
  * @author adm
@@ -39,8 +37,8 @@ public class Home extends javax.swing.JFrame {
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 18));
         FlatMacLightLaf.setup();
         this.setTitle("Quản lý bệnh viện");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(new Dimension(1200, 800));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(new Dimension(1000, 600));
         setLocationRelativeTo(null);
         initComponents();
     }
@@ -59,27 +57,21 @@ public class Home extends javax.swing.JFrame {
         jLabel1 = new JLabel();
         jLabel2 = new JLabel();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
 
         JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "[fill,360]"));
         panel.putClientProperty(FlatClientProperties.STYLE, "arc:20;" +
-                "[light]background:darken(@background,3%);" +
-                "[dark]background:lighten(@background,3%)");
+                "[light]background:darken(@background,3%);");
 
         addPatientButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,20%);" +
-                "[dark]background:lighten(@background,10%);" +
                 "borderWidth:0;" +
                 "focusWidth:0;" +
                 "innerFocusWidth:0");
-
         exitButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,20%);" +
-                "[dark]background:lighten(@background,10%);" +
                 "borderWidth:0;" +
                 "focusWidth:0;" +
                 "innerFocusWidth:0");
         doctorButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,20%);" +
-                "[dark]background:lighten(@background,10%);" +
                 "borderWidth:0;" +
                 "focusWidth:0;" +
                 "innerFocusWidth:0");
@@ -105,7 +97,7 @@ public class Home extends javax.swing.JFrame {
         add(panel);
     }
 
-    private void doctorButtonActionPerformed(ActionEvent actionEvent) {
+    private void doctorButtonActionPerformed(ActionEvent evt) {
         new DoctorInterface().setVisible(true);
     }
 

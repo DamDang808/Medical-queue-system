@@ -39,16 +39,12 @@ public class TextToSpeech {
             } else {
                 System.out.println("Error response code: " + responseCode);
             }
+            Thread.sleep(1000);
             downloadFile(fileUrl, savePath);
             System.out.println("File downloaded successfully.");
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
         try {
             FileInputStream fis = new FileInputStream("output.mp3");
@@ -86,6 +82,8 @@ public class TextToSpeech {
             while ((bytesRead = in.read(buffer)) != -1) {
                 out.write(buffer, 0, bytesRead);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
