@@ -31,7 +31,6 @@ public class AddPatientRecord extends JFrame {
     private int numOfPatientToday = 1;
 
     private JButton saveButton;
-    private JComboBox<String> genderBox;
     private JComboBox<String> departmentBox;
     private JRadioButton jrMale;
     private JRadioButton jrFemale;
@@ -69,7 +68,6 @@ public class AddPatientRecord extends JFrame {
         txtAddress = new JTextField();
         txtHistory = new JTextField();
 
-        genderBox = new JComboBox<>();
         departmentBox = new JComboBox<>();
 
         saveButton = new JButton("Lưu");

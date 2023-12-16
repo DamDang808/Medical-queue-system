@@ -33,9 +33,11 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("resources.themes");
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 18));
+
+        FlatLaf.registerCustomDefaultsSource("resources.themes");
         FlatMacLightLaf.setup();
+
         this.setTitle("Quản lý bệnh viện");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(new Dimension(1000, 600));

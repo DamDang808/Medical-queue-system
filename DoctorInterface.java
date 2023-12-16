@@ -36,10 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.*;
 
 /**
  * @author ADMIN
@@ -68,7 +65,7 @@ public class DoctorInterface extends JFrame {
     private List<Patient> diagnosedPatients = new LinkedList<>();
 
     public DoctorInterface() {
-        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 18));
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         this.setTitle("Bác sĩ");
         setSize(new Dimension(1200, 800));
         initComponents();
@@ -229,6 +226,7 @@ public class DoctorInterface extends JFrame {
         table.setAutoCreateRowSorter(true);
         table.setModel(model);
 
+        // Thêm dữ liệu từ file csv vào bảng
         try {
             Reader reader = Files.newBufferedReader(Paths.get("csv/khoanoi.csv"));
             // create csv reader
@@ -255,8 +253,15 @@ public class DoctorInterface extends JFrame {
             throw new RuntimeException(e);
         }
 
+        // căn giữa các cột
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int x = 0; x < columnNames.length; x++) {
+            table.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
+        }
+
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800, 600));
+        scrollPane.setPreferredSize(new Dimension(1200, 800));
 
         JPanel panel = new JPanel();
         panel.add(new JLabel("Tìm kiếm: "));
@@ -358,6 +363,12 @@ public class DoctorInterface extends JFrame {
             String[] row = new String[]{patient.getID(), patient.getName(), patient.getAge(), patient.getGender(),
                     patient.getDoctorsDiagnosis(), patient.getMedicine()};
             model.addRow(row);
+        }
+        // căn giữa các cột
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int x = 0; x < columnNames.length; x++) {
+            table.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
         }
 
         JPanel panel = new JPanel();
