@@ -63,11 +63,39 @@ public class DoctorInterface extends JFrame {
     private Patient patient;
     private Queue<Patient> patientsWaiting = new LinkedList<>();
     private List<Patient> diagnosedPatients = new LinkedList<>();
+    private String department;
+    private String dataLocation;
 
-    public DoctorInterface() {
+    public DoctorInterface(String department) {
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         this.setTitle("Bác sĩ");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.department = department;
+        switch (department) {
+            case "Khoa Nội":
+                dataLocation = "csv/khoanoi.csv";
+                break;
+            case "Khoa Ngoại":
+                dataLocation = "csv/khoangoai.csv";
+                break;
+            case "Khoa Phụ sản":
+                dataLocation = "csv/khoaphusan.csv";
+                break;
+            case "Khoa Tai-Mũi-Họng":
+                dataLocation = "csv/khoataimuihong.csv";
+                break;
+            case "Khoa Hồi sức tích cực":
+                dataLocation = "csv/khoahoisuctichcuc.csv";
+                break;
+            case "Khoa Răng-Hàm-Mặt":
+                dataLocation = "csv/khoaranghammat.csv";
+                break;
+            case "Khoa Ung bướu":
+                dataLocation = "csv/khoaungbuou.csv";
+                break;
+            case "Khoa Xương khớp":
+                dataLocation = "csv/khoaxuongkhop.csv";
+                break;
+        }
         setSize(new Dimension(1200, 800));
         initComponents();
     }
@@ -181,7 +209,7 @@ public class DoctorInterface extends JFrame {
             patient.setDoctorsDiagnosis(diagnosis);
             diagnosedPatients.add(patient);
             patientsWaiting.poll();
-            deleteFirstRowInCSV("csv/khoanoi.csv");
+            deleteFirstRowInCSV(dataLocation);
             String[] data = {patient.getID(), patient.getName(), patient.getPhone(), patient.getAge(),
                     patient.getGender(), patient.getAddress(), patient.getDoctorsDiagnosis(), patient.getMedicine()};
             writeToCSV(data, "csv/diagnosed.csv");
@@ -230,7 +258,7 @@ public class DoctorInterface extends JFrame {
 
         // Thêm dữ liệu từ file csv vào bảng
         try {
-            Reader reader = Files.newBufferedReader(Paths.get("csv/khoanoi.csv"));
+            Reader reader = Files.newBufferedReader(Paths.get(dataLocation));
             // create csv reader
             CSVReader csvReader = new CSVReader(reader);
             // read all records at once
@@ -263,7 +291,7 @@ public class DoctorInterface extends JFrame {
         }
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800, 600));
+        scrollPane.setPreferredSize(new Dimension(1200, 800));
 
         JPanel panel = new JPanel();
         panel.add(new JLabel("Tìm kiếm: "));
@@ -455,6 +483,6 @@ public class DoctorInterface extends JFrame {
     }
 
     public static void main(String[] args) {
-        new DoctorInterface().setVisible(true);
+        new DoctorInterface("Khoa Nội").setVisible(true);
     }
 }

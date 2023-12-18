@@ -31,7 +31,6 @@ public class AddPatientRecord extends JFrame {
     private int numOfPatientToday = 1;
 
     private JButton saveButton;
-    private JButton exitButton;
     private JComboBox<String> departmentBox;
     private JRadioButton jrMale;
     private JRadioButton jrFemale;
@@ -72,7 +71,6 @@ public class AddPatientRecord extends JFrame {
         departmentBox = new JComboBox<>();
 
         saveButton = new JButton("Lưu");
-        exitButton = new JButton("Thoát");
 
         //setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
@@ -98,12 +96,6 @@ public class AddPatientRecord extends JFrame {
                 "focusWidth:0;" +
                 "innerFocusWidth:0");
         saveButton.addActionListener(this::saveButtonActionPerformed);
-        exitButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,10%);" +
-                "[dark]background:lighten(@background,10%);" +
-                "borderWidth:0;" +
-                "focusWidth:0;" +
-                "innerFocusWidth:0");
-        exitButton.addActionListener(this::exitButtonActionPerformed);
 
         JLabel lbTitle = new JLabel("Thông tin bệnh nhân");
         lbTitle.putClientProperty(FlatClientProperties.STYLE, "font:bold +10");
@@ -130,7 +122,6 @@ public class AddPatientRecord extends JFrame {
         panel.add(new JLabel("Khoa"), "gapy 8");
         panel.add(departmentBox);
         panel.add(saveButton, "gapy 20");
-        panel.add(exitButton, "gapy 10");
 
         add(panel);
     }
@@ -154,13 +145,6 @@ public class AddPatientRecord extends JFrame {
         panel.add(jrMale);
         panel.add(jrFemale);
         return panel;
-    }
-    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thoát?",
-                "Xác nhận", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-            this.setVisible(false);
-        }
     }
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
