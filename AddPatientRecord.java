@@ -150,6 +150,7 @@ public class AddPatientRecord extends JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             int id = Integer.parseInt(idTextField.getText());
+            numOfPatientToday = id + 1;
             int age = Integer.parseInt(txtAge.getText());
 
             if (age <= 0) {
@@ -218,7 +219,7 @@ public class AddPatientRecord extends JFrame {
             JOptionPane.showMessageDialog(this, "Thêm bệnh nhân thành công.");
 
             // Update UI
-            numOfPatientToday++;
+
             idTextField.setText(numOfPatientToday + "");
             txtFirstName.setText("");
             txtLastName.setText("");
