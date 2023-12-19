@@ -253,9 +253,9 @@ public class DoctorInterface extends JFrame {
         JTable table = new JTable(0, columnNames.length);
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
         table.setAutoCreateRowSorter(true);
-
         table.setModel(model);
 
+        patientsWaiting.clear();
         // Thêm dữ liệu từ file csv vào bảng
         try {
             Reader reader = Files.newBufferedReader(Paths.get(dataLocation));

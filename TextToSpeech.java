@@ -13,35 +13,39 @@ public class TextToSpeech {
 
     public void speak(String textToConvert) {
         String fileUrl = "";
-        try {
-            String apiUrl = "https://api.fpt.ai/hmi/tts/v5"; // URL của API Text-to-Speech của FPT.AI
+        boolean isError = true;
+        while (isError) {
+            try {
+                String apiUrl = "https://api.fpt.ai/hmi/tts/v5"; // URL của API Text-to-Speech của FPT.AI
 
-            URL url = new URL(apiUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                URL url = new URL(apiUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            // Thiết lập các thuộc tính của yêu cầu
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("api-key", apiKey);
+                // Thiết lập các thuộc tính của yêu cầu
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("api-key", apiKey);
 
-            // Xây dựng payload cho yêu cầu
-            String payload = "{\"\":\"" + textToConvert + "\"}";
+                // Xây dựng payload cho yêu cầu
+                String payload = "{\"\":\"" + textToConvert + "\"}";
 
-            // Gửi yêu cầu POST
-            connection.setDoOutput(true);
-            connection.getOutputStream().write(payload.getBytes(StandardCharsets.UTF_8));
+                // Gửi yêu cầu POST
+                connection.setDoOutput(true);
+                connection.getOutputStream().write(payload.getBytes(StandardCharsets.UTF_8));
 
-            // Nhận phản hồi từ API
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                String audioFilePath = getString(connection);
-                System.out.println("Audio file path: " + audioFilePath);
-                fileUrl = getAudioFilePath(audioFilePath);
-            } else {
-                System.out.println("Error response code: " + responseCode);
+                // Nhận phản hồi từ API
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    String audioFilePath = getString(connection);
+                    System.out.println("Audio file path: " + audioFilePath);
+                    fileUrl = getAudioFilePath(audioFilePath);
+                } else {
+                    System.out.println("Error response code: " + responseCode);
+                }
+                isError = false;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         try {
