@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 public class TextToSpeech {
     String apiKey = "y1ICRszNJ79bveZDpBEyfp1n2MRe4RsA"; // Thay YOUR_API_KEY bằng API key của bạn
     String savePath = "output.mp3";
+
     public void speak(String textToConvert) {
         String fileUrl = "";
         try {
@@ -39,11 +40,28 @@ public class TextToSpeech {
             } else {
                 System.out.println("Error response code: " + responseCode);
             }
-            Thread.sleep(1000);
-            downloadFile(fileUrl, savePath);
-            System.out.println("File downloaded successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        } catch (IOException | InterruptedException e) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            URL url = new URL(fileUrl);
+            URLConnection connection = url.openConnection();
+            InputStream in = connection.getInputStream();
+            FileOutputStream out = new FileOutputStream(savePath);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+            System.out.println("File downloaded successfully.");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
@@ -71,22 +89,6 @@ public class TextToSpeech {
         // Bạn có thể thực hiện các bước tiếp theo để phát file âm thanh
         return response.toString();
     }
-
-    private static void downloadFile(String fileUrl, String savePath) throws IOException {
-        URL url = new URL(fileUrl);
-        URLConnection connection = url.openConnection();
-        try (InputStream in = connection.getInputStream();
-             FileOutputStream out = new FileOutputStream(savePath)) {
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(buffer)) != -1) {
-                out.write(buffer, 0, bytesRead);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static String getAudioFilePath(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
