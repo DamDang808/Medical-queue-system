@@ -47,6 +47,8 @@ public class AddPatientRecord extends JFrame {
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         setTitle("Thêm bệnh nhân");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
         setSize(new Dimension(1200, 800));
         setLocationRelativeTo(null);
         initComponents();
@@ -99,9 +101,12 @@ public class AddPatientRecord extends JFrame {
 
         JLabel lbTitle = new JLabel("Thông tin bệnh nhân");
         lbTitle.putClientProperty(FlatClientProperties.STYLE, "font:bold +10");
+        JLabel lbTitle1 = new JLabel("Lưu ý: Chỉ bật 1 màn hình này trong quá trình hoạt động!");
+        lbTitle1.putClientProperty(FlatClientProperties.STYLE, "font:bold +2");
 
 
         panel.add(lbTitle);
+        panel.add(lbTitle1);
 
         panel.add(new JLabel("ID"), "gapy 8");
         panel.add(idTextField);
@@ -211,6 +216,9 @@ public class AddPatientRecord extends JFrame {
                     break;
                 case "Khoa Ung bướu":
                     writeToCSV(patient, "csv/khoaungbuou.csv");
+                    break;
+                case "Khoa Cấp cứu":
+                    writeToCSV(patient, "csv/khoacapcuu.csv");
                     break;
                 case "Khoa Xương khớp":
                     writeToCSV(patient, "csv/khoaxuongkhop.csv");

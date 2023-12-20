@@ -112,7 +112,7 @@ public class Home extends javax.swing.JFrame {
         );
 
         if (selectedDepartment != null && !selectedDepartment.isEmpty()) {
-            new DoctorInterface(selectedDepartment).setVisible(true);
+            new DoctorRecord(selectedDepartment).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn khoa nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }

@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
@@ -25,8 +23,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -41,7 +37,7 @@ import javax.swing.table.*;
 /**
  * @author ADMIN
  */
-public class DoctorInterface extends JFrame {
+public class DoctorRecord extends JFrame {
 
     /**
      * Creates new form NewJFrame
@@ -66,7 +62,7 @@ public class DoctorInterface extends JFrame {
     private String department;
     private String dataLocation;
 
-    public DoctorInterface(String department) {
+    public DoctorRecord(String department) {
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         this.setTitle("Bác sĩ");
         this.department = department;
@@ -91,6 +87,9 @@ public class DoctorInterface extends JFrame {
                 break;
             case "Khoa Ung bướu":
                 dataLocation = "csv/khoaungbuou.csv";
+                break;
+            case "Khoa Cấp cứu":
+                dataLocation = "csv/khoacapcuu.csv";
                 break;
             case "Khoa Xương khớp":
                 dataLocation = "csv/khoaxuongkhop.csv";
@@ -483,6 +482,6 @@ public class DoctorInterface extends JFrame {
     }
 
     public static void main(String[] args) {
-        new DoctorInterface("Khoa Nội").setVisible(true);
+        new DoctorRecord("Khoa Nội").setVisible(true);
     }
 }
