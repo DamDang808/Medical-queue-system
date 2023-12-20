@@ -92,6 +92,8 @@ public class DoctorInterface extends JFrame {
             case "Khoa Ung bướu":
                 dataLocation = "csv/khoaungbuou.csv";
                 break;
+            case "Khoa Cấp cứu":
+                dataLocation = "csv/khoacapcuu.csv";
             case "Khoa Xương khớp":
                 dataLocation = "csv/khoaxuongkhop.csv";
                 break;
