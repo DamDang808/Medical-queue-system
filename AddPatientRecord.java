@@ -101,7 +101,7 @@ public class AddPatientRecord extends JFrame {
 
         JLabel lbTitle = new JLabel("Thông tin bệnh nhân");
         lbTitle.putClientProperty(FlatClientProperties.STYLE, "font:bold +10");
-        JLabel lbTitle1 = new JLabel("Lưu ý: Chỉ bật 1 màn hình này trong quá trình hoạt động!");
+        JLabel lbTitle1 = new JLabel("Lưu ý: Chỉ mở 1 màn hình này trong quá trình hoạt động!");
         lbTitle1.putClientProperty(FlatClientProperties.STYLE, "font:bold +2");
 
 
