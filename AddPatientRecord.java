@@ -212,6 +212,9 @@ public class AddPatientRecord extends JFrame {
                 case "Khoa Ung bướu":
                     writeToCSV(patient, "csv/khoaungbuou.csv");
                     break;
+                case "Khoa Cấp cứu":
+                    writeToCSV(patient, "csv/khoacapcuu.csv");
+                    break;
                 case "Khoa Xương khớp":
                     writeToCSV(patient, "csv/khoaxuongkhop.csv");
                     break;
