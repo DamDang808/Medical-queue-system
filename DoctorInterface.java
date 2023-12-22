@@ -37,7 +37,7 @@ import javax.swing.table.*;
 /**
  * @author ADMIN
  */
-public class DoctorRecord extends JFrame {
+public class DoctorInterface extends JFrame {
 
     /**
      * Creates new form NewJFrame
@@ -62,7 +62,7 @@ public class DoctorRecord extends JFrame {
     private String department;
     private String dataLocation;
 
-    public DoctorRecord(String department) {
+    public DoctorInterface(String department) {
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         this.setTitle("Bác sĩ");
         this.department = department;
@@ -491,4 +491,5 @@ public class DoctorRecord extends JFrame {
         });
         return searchField;
     }
+
 }
