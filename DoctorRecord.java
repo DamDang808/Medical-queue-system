@@ -380,7 +380,7 @@ public class DoctorRecord extends JFrame {
     }
 
     private void showDiagnosedPatientsTable() {
-        String[] columnNames = {"Số thứ tự", "Họ tên", "Tuổi", "Giới tính", "Chẩn đoán", "Đơn thuốc"};
+        String[] columnNames = {"Số thứ tự", "Họ tên","Số điện thoại", "Tuổi", "Giới tính", "Chẩn đoán", "Đơn thuốc"};
         JTable table = new JTable(0, columnNames.length);
         DefaultTableModel model = new DefaultTableModel(new Object[][]{}, columnNames);
         table.setAutoCreateRowSorter(true);
@@ -388,11 +388,22 @@ public class DoctorRecord extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(800, 600));
 
-        for (Patient patient : diagnosedPatients) {
-            String[] row = new String[]{patient.getID(), patient.getName(), patient.getAge(), patient.getGender(),
-                    patient.getDoctorsDiagnosis(), patient.getMedicine()};
-            model.addRow(row);
+        try {
+            Reader reader = Files.newBufferedReader(Paths.get("csv/diagnosed.csv"));
+            // create csv reader
+            CSVReader csvReader = new CSVReader(reader);
+            // read all records at once
+            List<String[]> records = csvReader.readAll();
+            // Import data from CSV file to table
+            for (String[] data : records) {
+                String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6]};
+                model.addRow(row);
+            }
+            reader.close();
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
         }
+
         // căn giữa các cột
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -479,9 +490,5 @@ public class DoctorRecord extends JFrame {
 
         });
         return searchField;
-    }
-
-    public static void main(String[] args) {
-        new DoctorRecord("Khoa Nội").setVisible(true);
     }
 }

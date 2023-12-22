@@ -56,8 +56,6 @@ public class Home extends javax.swing.JFrame {
         addPatientButton = new JButton();
         exitButton = new JButton();
         doctorButton = new JButton();
-        jLabel1 = new JLabel();
-        jLabel2 = new JLabel();
 
         setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
 
