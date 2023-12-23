@@ -61,10 +61,12 @@ public class DoctorInterface extends JFrame {
     private List<Patient> diagnosedPatients = new LinkedList<>();
     private String department;
     private String dataLocation;
+    private int id;
 
-    public DoctorInterface(String department) {
+    public DoctorInterface(String department, int id) {
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         this.setTitle("Bác sĩ");
+        this.id = id;
         this.department = department;
         switch (department) {
             case "Khoa Nội":
@@ -272,10 +274,12 @@ public class DoctorInterface extends JFrame {
                     firstRow = false;
                     continue;
                 }
-                String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], "", date.format(formatter)};
-                Patient patient = new Patient(data[0], data[1], data[2], data[3], data[4], data[5], data[6]);
-                model.addRow(row);
-                patientsWaiting.add(patient);
+                if (Integer.parseInt(data[7]) == id) {
+                    String[] row = new String[]{data[0], data[1], data[2], data[3], data[4], data[5], data[6], "", date.format(formatter)};
+                    Patient patient = new Patient(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+                    model.addRow(row);
+                    patientsWaiting.add(patient);
+                }
             }
             reader.close();
         } catch (IOException | CsvException e) {
@@ -343,7 +347,6 @@ public class DoctorInterface extends JFrame {
         );
 
         if (selectedDepartment != null && !selectedDepartment.isEmpty()) {
-            patient = null;
             JOptionPane.showMessageDialog(this, "Đã chuyển bệnh nhân đến " + selectedDepartment,
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             String[] patientData = {patient.getID(), patient.getName(), patient.getPhone(), patient.getAge(),
@@ -373,7 +376,9 @@ public class DoctorInterface extends JFrame {
                 case "Khoa Xương khớp":
                     writeToCSV(patientData, "csv/khoaxuongkhop.csv");
                     break;
+
             }
+            patient = null;
         } else {
             JOptionPane.showMessageDialog(this, "Chưa chọn khoa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }

@@ -8,8 +8,9 @@ public class Patient {
     private String illness;
     private String doctorsDiagnosis = "";
     private String medicine;
+    private String doctorID;
 
-    public Patient(String ID, String name, String phone, String age, String gender, String address, String illness) {
+    public Patient(String ID, String name, String phone, String age, String gender, String address, String illness, String doctorID) {
         this.ID = ID;
         this.name = name;
         this.address = address;
@@ -17,6 +18,7 @@ public class Patient {
         this.age = age;
         this.gender = gender;
         this.illness = illness;
+        this.doctorID = doctorID;
     }
 
     public String getID() {
