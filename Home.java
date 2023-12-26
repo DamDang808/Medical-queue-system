@@ -42,7 +42,7 @@ public class Home extends javax.swing.JFrame {
         FlatLaf.registerCustomDefaultsSource("resources.themes");
         FlatMacLightLaf.setup();
 
-        this.setTitle("Quản lý bệnh viện");
+        this.setTitle("Quản lý hàng chờ bệnh nhân");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(new Dimension(1000, 600));
         setLocationRelativeTo(null);
