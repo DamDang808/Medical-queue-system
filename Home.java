@@ -97,7 +97,7 @@ public class Home extends javax.swing.JFrame {
 
     private void doctorButtonActionPerformed(ActionEvent evt) {
         String[] department = new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
-                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"};
+                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Xương khớp"};
         String selectedDepartment = (String) JOptionPane.showInputDialog(
                 this, "Chọn khoa của bác sĩ:",
                 "Danh sách khoa",

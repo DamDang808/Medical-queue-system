@@ -90,9 +90,6 @@ public class DoctorInterface extends JFrame {
             case "Khoa Ung bướu":
                 dataLocation = "csv/khoaungbuou.csv";
                 break;
-            case "Khoa Cấp cứu":
-                dataLocation = "csv/khoacapcuu.csv";
-                break;
             case "Khoa Xương khớp":
                 dataLocation = "csv/khoaxuongkhop.csv";
                 break;
@@ -285,7 +282,7 @@ public class DoctorInterface extends JFrame {
         } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
         }
-
+    
         // căn giữa các cột
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -336,7 +333,7 @@ public class DoctorInterface extends JFrame {
         }
 
         String[] department = new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
-                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"};
+                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Xương khớp"};
         String selectedDepartment = (String) JOptionPane.showInputDialog(
                 this, "Chọn khoa cần chuyển bệnh nhân đến:",
                 "Danh sách khoa",

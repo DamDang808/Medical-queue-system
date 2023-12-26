@@ -100,7 +100,7 @@ public class AddPatientRecord extends JFrame {
         txtAge.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tuổi");
         txtHistory.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tiền sử bệnh án");
         departmentBox.setModel(new DefaultComboBoxModel<>(new String[]{"Khoa Nội", "Khoa Ngoại", "Khoa Phụ sản",
-                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Cấp cứu", "Khoa Xương khớp"}));
+                "Khoa Tai-Mũi-Họng", "Khoa Hồi sức tích cực", "Khoa Răng-Hàm-Mặt", "Khoa Ung bướu", "Khoa Xương khớp"}));
         departmentBox.addActionListener(this::departmentBoxActionPerformed);
 
         saveButton.putClientProperty(FlatClientProperties.STYLE, "[light]background:darken(@background,10%);" +
@@ -205,9 +205,6 @@ public class AddPatientRecord extends JFrame {
                     break;
                 case "Khoa Ung bướu":
                     writeToCSV(patient, "csv/khoaungbuou.csv");
-                    break;
-                case "Khoa Cấp cứu":
-                    writeToCSV(patient, "csv/khoacapcuu.csv");
                     break;
                 case "Khoa Xương khớp":
                     writeToCSV(patient, "csv/khoaxuongkhop.csv");
